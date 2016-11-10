@@ -2,17 +2,31 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title data-ng-bind="route.title? route.title : 'Godam | Home' | translate"></title>
+    <base href=" " />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="bower_components/angularjs-datepicker/dist/angular-datepicker.min.css" />
+    <link rel="stylesheet" href="bower_components/ng-tags-input/ng-tags-input.min.css" />
+    <link rel="stylesheet" href="bower_components/angular-hotkeys/build/hotkeys.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <!-- injector:css -->
+    <link rel="stylesheet" href="/app/styles/custom.css">
+    <link rel="stylesheet" href="/app/styles/custom_bootstrap.css">
+    <link rel="stylesheet" href="/app/styles/main.css">
+    <link rel="stylesheet" href="/app/styles/responsive.css">
+    <link rel="stylesheet" href="/app/styles/theme_admin.css">
+    <!-- endinjector -->
     <!-- endbuild -->
   </head>
   <body ng-app="wmsApp">
@@ -21,77 +35,98 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="header">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href="#/">wms</a>
-          </div>
-
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/about">About</a></li>
-              <li><a ng-href="#/">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
     <div ng-view=""></div>
-    </div>
 
-    <div class="footer">
-      <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-      </div>
-    </div>
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
-       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
-       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
+        ga('create', 'UA-XXXXX-X');
+        ga('send', 'pageview');
     </script>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+    <script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
+    <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
+    <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+    <script src="bower_components/ng-focus-if/focusIf.js"></script>
+    <script src="bower_components/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="bower_components/angular-daterangepicker/js/angular-daterangepicker.js"></script>
+    <script src="bower_components/angularjs-datepicker/dist/angular-datepicker.min.js"></script>
+    <script src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>
+    <script src="bower_components/angular-hotkeys/build/hotkeys.js"></script>
+    <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="/scripts/app.js"></script>
         <!-- injector:js -->
+        <script src="scripts/Authentication/404page/404.controller.js"></script>
+        <script src="scripts/Authentication/404page/404.js"></script>
+        <script src="scripts/Authentication/404page/404.service.js"></script>
+        <script src="scripts/Authentication/googleAuth/googleAuth.controller.js"></script>
+        <script src="scripts/Authentication/googleAuth/googleAuth.js"></script>
+        <script src="scripts/Authentication/login/login.controller.js"></script>
+        <script src="scripts/Authentication/login/login.js"></script>
+        <script src="scripts/Authentication/login/login.service.js"></script>
+        <script src="scripts/Authentication/password/change/change.controller.js"></script>
+        <script src="scripts/Authentication/password/change/change.js"></script>
+        <script src="scripts/Authentication/password/change/change.service.js"></script>
+        <script src="scripts/Authentication/password/forgot/forgot.controller.js"></script>
+        <script src="scripts/Authentication/password/forgot/forgot.js"></script>
+        <script src="scripts/Authentication/password/forgot/forgot.service.js"></script>
+        <script src="scripts/Authentication/password/reset/reset.controller.js"></script>
+        <script src="scripts/Authentication/password/reset/reset.js"></script>
+        <script src="scripts/Authentication/password/reset/reset.service.js"></script>
         <script src="scripts/Receiving/ASN/list/list.controller.js"></script>
         <script src="scripts/Receiving/ASN/list/list.js"></script>
         <script src="scripts/Receiving/ASN/list/list.service.js"></script>
+        <script src="scripts/components/generic/generic.directive.js"></script>
+        <script src="scripts/components/language/language.controller.js"></script>
+        <script src="scripts/components/leftMenu/leftMenu.controller.js"></script>
+        <script src="scripts/components/leftMenu/leftMenu.service.js"></script>
+        <script src="scripts/components/modal/modal.service.js"></script>
+        <script src="scripts/components/navBar/navBar.controller.js"></script>
+        <script src="scripts/components/navBar/navBar.service.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/utils/sessionManagement/sessionManagement.service.js"></script>
+        <script src="scripts/utils/settings/settings.service.js"></script>
+        <script src="scripts/utils/translator/langArDb.service.js"></script>
+        <script src="scripts/utils/translator/langEnIn.service.js"></script>
+        <script src="scripts/utils/translator/langMaMl.service.js"></script>
+        <script src="scripts/utils/translator/langTmTr.service.js"></script>
+        <script src="scripts/utils/translator/language.translate.js"></script>
         <!-- endinjector -->
         <!-- endbuild -->
 </body>

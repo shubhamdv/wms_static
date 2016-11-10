@@ -1,0 +1,20 @@
+<div class="grey_background"></div>
+<div id="sidebar-wrapper" data-ng-controller="LeftMenuCtrl as vmLeftMenu">
+    <ul class="nav sidebar-nav" id="accordion" role="tablist" aria-multiselectable="false">
+
+        <li class="parent_menu panel" ng-repeat="menu in vmLeftMenu.leftMenu" ng-if="vmLeftMenu.hasPermissions(menu.permissions) && menu.submenu" ng-class="{active: (route.activeParent == menu.module || (location.path() === '/select/station' && prevUrl === menu.link) || (location.path() === '/select/station' && menu.subLinks.indexOf(prevUrl) >= 0) ), is_parent: (menu.submenu.length)}">
+
+            <a href="{{menu.link}}" ng-if="menu.submenu.length == 0" class="parent_menu_a" ng-click = "vmLeftMenu.targetPage($event, menu.link)" ng-class="{active: (route.activeParent == menu.module || (location.path() === '/select/station' && prevUrl === menu.link ) )}"><i class="{{menu.iconClass}}"></i>{{menu.title | translate}}</a>
+
+            <a class="parent_menu_a" ng-if="menu.submenu.length" ng-class="{collapsed: (route.activeParent == menu.module || (location.path() === '/select/station' && menu.subLinks.indexOf(prevUrl) >= 0))}" aria-expanded="{{(route.activeParent == menu.module || (location.path() === '/select/station' && menu.subLinks.indexOf(prevUrl) >= 0))?true:false}}" data-target="#collapse{{menu.id}}" data-parent="#accordion" data-toggle="collapse">
+                <i class="{{menu.iconClass}}"></i>{{menu.title | translate}} <i class="icon-pright rotate"></i>
+            </a>
+
+            <ul id="collapse{{menu.id}}" ng-if="menu.submenu.length" ng-class="{in: (route.activeParent == menu.module || (location.path() === '/select/station' && menu.subLinks.indexOf(prevUrl) >= 0))}" class="panel-collapse collapse" role="tabpanel">
+                <li ng-repeat="submenu in menu.submenu" ng-if="vmLeftMenu.hasPermissions(submenu.permission)" ng-class="{active: (route.activeMenu == submenu.submodule || (location.path() === '/select/station' && prevUrl === submenu.link ) )}">
+                    <a href="{{submenu.link}}" ng-click = "vmLeftMenu.targetPage($event, submenu.link)">{{submenu.title | translate}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

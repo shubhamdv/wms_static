@@ -1,0 +1,11 @@
+<div class="dropdown">
+    <a id="dLabel" data-target="#" data-disabled="true" class="language" href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        {{languageName}} <i class="icon-pdown"></i>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel">
+        <li class="{{(languageName | translate)==(lang.name| translate)?'active':''}}" ng-click="changeLanguage(lang.locale, lang.name, lang.flagURL)" ng-repeat="lang in LANGUAGES">
+            <a href="#">{{lang.name}}</a>
+        </li>
+    </ul>
+</div>

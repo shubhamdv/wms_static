@@ -1,0 +1,3 @@
+<tags-input on-tag-added="setValue($tag)" on-tag-removed="removeTag($tag)"  max-tags="1" ng-required="true" add-from-autocomplete-only="true"  ng-model="fcNames" display-property="name" placeholder="{{'FC_PAGE.SELECT_FC_TEXT'|translate}}">
+  <auto-complete source="getFC($query)" focus-if></auto-complete>
+</tags-input>

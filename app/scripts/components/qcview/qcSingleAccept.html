@@ -1,0 +1,117 @@
+<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title">Match these details with the label on the product packaging</h3>
+  </div>
+  <div class="panel-body">
+    <div class="row" ng-if = "!vm.pcmsDetail.attributes">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+        <dl>
+          <dt>{{'LABEL_TEXT.PROD_NAME' | translate}}</dt>
+          <dd>{{vm.prodDetail.name || vm.prodDetail.prod_name}}</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row" ng-if = "vm.pcmsDetail.attributes" ng-repeat="attribute in vm.pcmsDetail.attributes" ng-switch on = "$index % 4">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6" ng-switch-when = "0" ng-init = "prodDetail = vm.pcmsDetail.attributes[$index]">
+        <dl ng-if="prodDetail.name">
+          <dt>{{prodDetail.name | capitalCase}}</dt>
+          <dd ng-if="prodDetail.name === 'URL'">
+          <a ng-href="{{prodDetail.value}}" ng-if = "prodDetail.value">{{'LABEL_TEXT.CLK_TO_VIEW' | translate}}</a>
+          <span ng-if = "!prodDetail.value">&minus;</span>
+          </dd>
+          <dd ng-if="prodDetail.name !== 'URL'">{{prodDetail.value ? prodDetail.value : '-'}}</dd>
+        </dl>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6" ng-switch-when = "0" ng-init = "prodDetail = vm.pcmsDetail.attributes[$index+1]">
+        <dl ng-if="prodDetail.name">
+          <dt>{{prodDetail.name | capitalCase}}</dt>
+          <dd ng-if="prodDetail.name === 'URL'">
+          <a ng-href="{{prodDetail.value}}" ng-if = "prodDetail.value">{{'LABEL_TEXT.CLK_TO_VIEW' | translate}}</a>
+          <span ng-if = "!prodDetail.value">&minus;</span>
+          </dd>
+          <dd ng-if="prodDetail.name !== 'URL'">{{prodDetail.value ? prodDetail.value : '-'}}</dd>
+        </dl>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6" ng-switch-when = "0" ng-init = "prodDetail = vm.pcmsDetail.attributes[$index+2]">
+        <dl ng-if="prodDetail.name">
+          <dt>{{prodDetail.name | capitalCase}}</dt>
+          <dd ng-if="prodDetail.name === 'URL'">
+          <a ng-href="{{prodDetail.value}}" ng-if = "prodDetail.value">{{'LABEL_TEXT.CLK_TO_VIEW' | translate}}</a>
+          <span ng-if = "!prodDetail.value">&minus;</span>
+          </dd>
+          <dd ng-if="prodDetail.name !== 'URL'">{{prodDetail.value ? prodDetail.value : '-'}}</dd>
+        </dl>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6" ng-switch-when = "0" ng-init = "prodDetail = vm.pcmsDetail.attributes[$index+3]">
+        <dl ng-if="prodDetail.name">
+          <dt>{{prodDetail.name | capitalCase}}</dt>
+          <dd ng-if="prodDetail.name === 'URL'">
+          <a ng-href="{{prodDetail.value}}" ng-if = "prodDetail.value">{{'LABEL_TEXT.CLK_TO_VIEW' | translate}}</a>
+          <span ng-if = "!prodDetail.value">&minus;</span>
+          </dd>
+          <dd ng-if="prodDetail.name !== 'URL'">{{prodDetail.value ? prodDetail.value : '-'}}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default" ng-if="vm.rules">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title">{{'LABEL_TEXT.MEASURE_FOR_ITEM' | translate}}</h3>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 inputFieldWrap" ng-repeat="field in vm.qcData.mandatoryField" ng-init="qcCheckForm.$customError= false">
+        <div class="form-group">
+          <label>{{field.name | capitalCase}}
+            <span ng-if="field.unit">( in {{field.unit | lowercase}} )</span>
+            <span class="text-danger">*</span>
+          </label>
+          <div ng-if="field.name === 'expiry_date'" class= "datepicker position_rel date_range" date-format="yyyy-MM-dd" date-min-limit="{{vm.minDate}}">
+            <input ng-change="vm.isValueChanged()" ng-model="field.value" class="form-control style720kb" type="text" ng-readonly="true" placeholder="{{field.name | capitalCase}}"/>
+            <a class="remove-date" ng-if="field.value" ng-click="field.value =''">&times;</a>
+          </div>
+          <input ng-change="vm.isValueChanged()" class="form-control" ng-if = "field.name === 'mrp' || field.name === 'width' || field.name === 'height' || field.name === 'length' || field.name === 'weight'" placeholder="{{field.name | capitalCase}}" ng-model="field.value" type="text" value="{{field.value}}" valid-float>
+          <input ng-change="vm.isValueChanged()" class="form-control" ng-if = "field.name !== 'expiry_date' && field.name !== 'mrp' && field.name !== 'width' && field.name !== 'height' && field.name !== 'length' && field.name !== 'weight'" placeholder="{{field.name | capitalCase}}" ng-model="field.value" type="text" value="{{field.value}}">
+          <span class="help-block text-left text-error" ng-if="(vm.parseFloat(field.value) === 0) && (field.name === 'width' || field.name === 'height' || field.name === 'length' || field.name === 'weight')" ng-init="qcCheckForm.$customError = true">{{field.name | capitalCase}}&nbsp;{{'ERR_MSG.IS_NOT_VALID' | translate}}</span>
+          <span ng-if="(vm.parseFloat(field.value) !== 0)" ng-init="qcCheckForm.$customError = false"></span>
+        </div>
+
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 inputFieldWrap" ng-repeat="field in vm.qcData.optionalField">
+        <div class="form-group">
+          <label>{{field.name | capitalCase}}
+            <span ng-if="field.unit">( in {{field.unit | lowercase}} )</span>
+          </label>
+          <div ng-if="field.name === 'expiry_date'" class= "datepicker position_rel date_range" date-format="yyyy-MM-dd" date-min-limit="{{vm.minDate}}">
+            <input ng-change="vm.isValueChanged()" ng-model="field.value" class="form-control style720kb" type="text" ng-readonly="true" placeholder="{{field.name | capitalCase}}"/>
+            <a class="remove-date" ng-if="field.value" ng-click="field.value =''">&times;</a>
+          </div>
+          <input ng-change="vm.isValueChanged()" class="form-control" ng-if = "field.name === 'mrp' || field.name === 'width' || field.name === 'height' || field.name === 'length' || field.name === 'weight'" placeholder="{{field.name | capitalCase}}" ng-model="field.value" type="text" value="{{field.value}}" valid-float>
+          <input ng-change="vm.isValueChanged()" class="form-control" ng-if = "field.name === 'dimension_unit'" placeholder="{{field.name | capitalCase}}" ng-model="field.value" type="text" value="{{field.value}}" valid-alphabet>
+          <input ng-change="vm.isValueChanged()" class="form-control" ng-if = "field.name !== 'expiry_date' && field.name !== 'mrp' && field.name !== 'width' && field.name !== 'height' && field.name !== 'length' && field.name !== 'weight' && field.name !== 'dimension_unit'" placeholder="{{field.name | capitalCase}}" ng-model="field.value" type="text" value="{{field.value}}">
+          <span class="help-block text-left text-error" ng-if="(vm.parseFloat(field.value) === 0) && (field.name === 'width' || field.name === 'height' || field.name === 'length' || field.name === 'weight')" ng-init="qcCheckForm.$customError = true">{{field.name | capitalCase}}&nbsp;{{'ERR_MSG.IS_NOT_VALID' | translate}}</span>
+          <span ng-if="(vm.parseFloat(field.value) !== 0)" ng-init="qcCheckForm.$customError = false"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default" ng-if="vm.rules.instructions">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title">{{'LABEL_TEXT.QC_ITEM_INST' | translate}}</h3>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="custom_ul_margin">
+        <ul class="custom_list">
+          <li>
+            <ul>
+              <li ng-repeat="ruleInstruction in vm.rules.instructions">{{ruleInstruction.text}}</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

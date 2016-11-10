@@ -1,0 +1,69 @@
+<div class="modal-header">
+  <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close" id="modal_close_btn">&times;</button>
+  <h4 ng-if="modal.data.title" class="modal-title">{{modal.data.title | translate}}</h4>
+</div>
+<div class="modal-body">
+  <p ng-if="modal.text" ng-bind="modal.text"></p>
+
+  <ul class="breadcrumb not_breadcrumb">
+    <li ng-repeat="(key, filter) in modal.filters">{{fixStr(key)}}: {{filter[0].name||filter[0].title||filter}}</li>
+  </ul>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="well">
+        <h4>{{'LABEL_TEXT.PACK_BOX_NUMBER' | translate}}:</h4>
+        <p>{{ruleList[ruleIndex].pack_box_number[0]?ruleList[ruleIndex].pack_box_number[0]:'-'}}</p>
+      </div>
+      <div class="well">
+        <h4>{{'LABEL_TEXT.EXPRESSION' | translate}}</h4>
+        <p>{{ruleList[index].expression?ruleList[index].expression:'-'}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 height_500">
+      <div class="panel">
+      <div class="panel-body">
+        <h4 class="text-center">{{'LABEL_TEXT.INSTRUCTIONS' | translate}}</h4>
+        <ol class="no_padding_left">
+          <li ng-repeat="instruction in ruleList[ruleIndex].instructions">{{instruction}}</li>
+        </ol>
+      </div>
+    </div>
+    </div>
+
+    <div class="col-md-4 height_500">
+      <div class="panel">
+      <div class="panel-body">
+        <h4 class="text-center">{{'LABEL_TEXT.REASONS' | translate}} </h4>
+        <ol class="no_padding_left">
+          <li ng-repeat="reason in ruleList[ruleIndex].reasons">{{reason}}</li>
+        </ol>
+      </div>
+    </div>
+    </div>
+
+    <div class="col-md-4 height_500">
+      <div class="panel">
+      <div class="panel-body">
+        <h4 class="text-center">{{'LABEL_TEXT.FIELDS_TO_CAPTURE' | translate}}  </h4>
+        <div class="form-group">
+          <span ng-repeat="mandatory_field in ruleList[ruleIndex].mandatory_fields">
+            <label class="text pull-left">{{mandatory_field}} </label>
+            <span class="pull-right text-muted">{{'LABEL_TEXT.MANDATORY' | translate}}</span>
+            <div class="clearfix"></div>
+          </span>
+          <span ng-repeat="optional_field in ruleList[ruleIndex].optional_fields">
+            <label class="text pull-left">{{optional_field}} </label>
+            <span class="pull-right text-muted"></span>
+            <div class="clearfix"></div>
+          </span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-disabled="(!reasonData.reason && button.disabled) && (!reasonData.reasonType.code && button.disabled)" ng-repeat="button in modal.buttons" ng-class="button.classes" ng-click="button.click($event)" class="btn btn-secondary">{{button.text | translate}}</button>
+</div>

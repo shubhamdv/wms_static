@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{"LABEL_TEXT.CHECK_PROD_PAGE" | translate}}</h3>
+  </div>
+  <div class="panel-body padding0">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
+        <carousel>
+          <slide ng-repeat="slide in vm.pcmsDetail.product_images" ng-if="vm.pcmsDetail.product_images.length" active="slide.active">
+            <img ng-src="{{slide.image_path}}">
+          </slide>
+          <slide ng-if="!vm.pcmsDetail.product_images.length" active="slide.active">
+            <img src="assets/images/qc/qc_img_not_avlbl.png" alt="qc_img_not_avlbl.png">
+          </slide>
+        </carousel>
+    </div>
+
+  </div>
+  <div class="pannel-footer padding_t_b_8 border_top" ng-if="vm.prodDetail.url">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <p class="txt-semibold margin_bottom_0">{{'LABEL_TEXT.SEE_MORE_IMG' | translate}}</p> klll
+      <a ng-href="{{vm.prodDetail.url}}" class="display_table" ng-if="vm.prodDetail.url">{{'LABEL_TEXT.CLK_TO_VIEW' | translate}}</a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>

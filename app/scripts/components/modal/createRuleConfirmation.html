@@ -1,0 +1,82 @@
+<div class="modal-header">
+  <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close" id="modal_close_btn">&times;</button>
+  <h4 ng-if="modal.data.title" class="modal-title">{{modal.data.title | translate}}</h4>
+</div>
+<div class="modal-body">
+  <p ng-if="modal.text" ng-bind="modal.text"></p>
+  <ul class="breadcrumb not_breadcrumb">
+    <li ng-repeat="(key, data) in modal.createData" ng-if="data && data!=''">{{fixStr(key)}}: <span class="value">{{data[0].name||data[0].title||'ACTIVITY_LIST.' + data | translate}}<span></li>
+</ul>
+<div class="well">
+  <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <dl>
+            <dt>{{'LABEL_TEXT.PACK_BOX_NUMBER' | translate}}:</dt>
+            <dd>{{modal.ruleData.packBoxNumber||'-'}}</dd>
+        </dl>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <dl>
+            <dt>{{'LABEL_TEXT.PRIORITY' | translate}}:</dt>
+            <dd>{{modal.ruleData.priority||'-'}}</dd>
+        </dl>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <dl>
+            <dt>{{'LABEL_TEXT.ROAD_FORM'|translate}}:</dt>
+            <dd>{{modal.ruleData.roadform||'-'}}</dd>
+        </dl>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <dl>
+            <dt>{{'LABEL_TEXT.EXPRESSION'|translate}}:</dt>
+            <dd>{{modal.ruleData.expressions||'-'}}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 height_500">
+      <div class="panel">
+      <div class="panel-body">
+        <h4 class="text-center">{{'LABEL_TEXT.INSTRUCTIONS' | translate}}</h4>
+        <ol class="no_padding_left">
+          <li ng-repeat="instruction in modal.ruleData.instructions" ng-show="instruction.selected">{{instruction.text}}</li>
+        </ol>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-4 height_500">
+      <div class="panel">
+      <div class="panel-body">
+        <h4 class="text-center">{{'LABEL_TEXT.REASONS'|translate}}</h4>
+        <ol class="no_padding_left">
+          <li ng-repeat="reason in modal.ruleData.reasons" ng-show="reason.selected">{{reason.text}}</li>
+        </ol>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-4 height_500">
+      <div class="panel">
+        <div class="panel-body">
+          <h4 class="text-center">{{'LABEL_TEXT.FIELDS_TO_CAPTURE'|translate}}</h4>
+          <div class="form-group">
+            <ul class="padding_left_0">
+              <li ng-repeat="field in modal.ruleData.attributes" ng-show="field.mandatory">
+                <span class="text pull-left">{{field.name}}</span> <span class="pull-right text-muted">{{'LABEL_TEXT.MANDATORY'|translate}}</span>
+                <span class="clearfix"></span>
+              </li>
+              <li ng-repeat="field in modal.ruleData.attributes" ng-show="field.optional && !field.mandatory">
+                <span class="text pull-left">{{field.name}} </span> <span class="pull-right text-muted"></span>
+                <span class="clearfix"></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-disabled="(!reasonData.reason && button.disabled) && (!reasonData.reasonType.code && button.disabled)" ng-repeat="button in modal.buttons" ng-class="button.classes" ng-click="button.click($event)">{{button.text | translate}}</button>
+</div>

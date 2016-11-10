@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close" id="modal_close_btn">&times;</button>
+    <h4 ng-if="modal.data.title" class="modal-title">{{modal.data.title | translate}}</h4>
+</div>
+<div class="modal-body">
+    <p ng-if="modal.text" ng-bind="modal.text"></p>
+    <form>
+        <div class="form-group">
+            <select id="status" selectpicker ng-options="inst.text for inst in modal.data.reasonList" ng-model="reasonData.reasonType" class="selectpicker form-control" data-style="form-control">
+                <option value="">{{'LABEL_TEXT.CHOOSE_REASON' | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group" ng-if = "reasonData.reasonType">
+            <label>{{'LABEL_TEXT.DESCRIPTION' | translate}}&nbsp;<span class="text-muted">( {{'LABEL_TEXT.OPTIONAL' | translate}} )</span></label>
+            <textarea class="form-control" rows="4" resize="none" ng-model="reasonData.reasonDescrip"></textarea>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button ng-disabled="(!reasonData.reason && button.disabled) && (!reasonData.reasonType.code && button.disabled)" ng-repeat="button in modal.buttons" ng-class="button.classes" ng-click="button.click($event)">{{button.text | translate}}</button>
+</div>

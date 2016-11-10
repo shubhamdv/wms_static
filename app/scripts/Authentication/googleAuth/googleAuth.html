@@ -1,0 +1,56 @@
+<section>
+    <nav class="landing-page-header">
+        <div ng-if="authParam == 'isNew'" data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+    </nav>
+    <div class="content-wrapper">
+        <div class="content-area">
+            <br>
+            <br>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                        <div class="card login_wrapper">
+                            <img src="assets/images/logo_white_on_red.png" class="login_logo">
+                            <h4 class="login_title text-uppercase">{{'H1'| translate}}<br>
+                              <span class="login_subtitle">{{'LABEL_TEXT.OPERATIONS' | translate}}</span>
+                            </h4>
+
+                            <div ng-if="authParam == 'access_denied'">
+                                <h4 class="godam_title_secondary">
+                                    <span ng-bind-html="'HOME_PAGE.GOOGLE_AUTH_ERR_MSG' | translate"></span><br/>
+                                    <span>
+                                      {{'HOME_PAGE.GOOGLE_AUTH_ERR_MSG1' | translate}}
+                                      <a href="/login">{{'HOME_PAGE.CLICK_LOGIN_TEXT' | translate}}</a>
+                                    </span>
+                                  </h4>
+                                <br>
+                            </div>
+                            <div ng-if="authParam == 'isNew'">
+                                <h4 class="godam_title_secondary"><br>
+                                    <span ng-bind-html="'HOME_PAGE.GOOGLE_AUTH_SUCC_MSG' | translate"></span><br/>
+                                    <span>{{'HOME_PAGE.GOOGLE_AUTH_SUCC_MSG1' | translate}}</span><br/>
+                                    <span>{{'HOME_PAGE.MAIL_TEXT' | translate}}
+                                      <a href="mailto:tech.admin@delhivery.com">tech.admin@delhivery.com</a>
+                                      {{'HOME_PAGE.QUERY_TEXT' | translate}}
+                                    </span>
+                                </h4>
+                                <br>
+                            </div>
+                            <div ng-if="authParam !== 'access_denied' && !userName">
+                                <h4 class="godam_title_secondary">
+                                    <span>{{authParam}}</span><br/>
+                                     <span>
+                                       {{'HOME_PAGE.GOOGLE_AUTH_ERR_MSG1' | translate}}
+                                       <a href="/login">{{'HOME_PAGE.CLICK_LOGIN_TEXT' | translate}}</a>
+                                     </span>
+                                </h4>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

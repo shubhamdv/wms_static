@@ -1,0 +1,48 @@
+<div class="panel panel-primary">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title">{{'PAGE_CONTENT.QCPAGE.CON2' | translate}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <p class="note-title text-orange">
+                    <span class="text-uppercase"><i>{{'LABEL_TEXT.NOTE' | translate}}</i></span>&nbsp;<span><i>{{'LABEL_TEXT.QC_MULTI_NOTE' | translate}}</i></span>
+                </p>
+                <div class="form-group scan_input">
+                    <form ng-submit="vm.isAddedInList(vm.itemNoMultiple, false)">
+                        <div class="input-group"> 
+                            <span class="input-group-addon"> <i class="icon-scan"></i> 
+                        </span>
+                        <input type="text" placeholder="Scan/Enter item serial number to see checking instructions" class="form-control md" id="batch_number" ng-model="vm.itemNoMultiple" autocomplete="off" focus-if>
+                        </div>
+                    </form>
+                    <p ng-if="!vm.isAdded">{{'PAGE_CONTENT.QCPAGE.CON1' | translate}}</p>
+                    <span ng-if="vm.isAdded" class="help-block text-error padding_left_37" >{{'ERR_MSG.ITEM_IN_LIST' | translate}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="qc_items_count">{{ ('LABEL_TEXT.ITEMS_SCANNED' | translate).replace('$$count', vm.multipleDataToAction.length) }}</div>
+    <div class=" custom_hr margin_bottom_0 margin_top_0"></div>
+    <div class="qc_items_wrapper">
+        <table class="table_custom_1" ng-if="vm.itemDetailList.length">
+            <tbody>
+                <tr ng-repeat = "item in vm.itemDetailList">
+                    <td>
+                        <div class="pull-left">
+                            <span class="txt-semibold">{{item.serial ? item.serial : '-'}}</span><br>
+                            <span class="light_text">{{item.prod_name ? item.prod_name : '-'}}</span>
+                        </div>
+                        <div class="pull-right text-right visible-xs">
+                            <a class="table_icon" ng-href="" ng-click="vm.removeItem(item, $index)"><i class="icon-delete"></i></a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </td>
+                    <td class="hidden-xs">
+                        <a class="table_icon" ng-href="" ng-click="vm.removeItem(item, $index)"><i class="icon-delete"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

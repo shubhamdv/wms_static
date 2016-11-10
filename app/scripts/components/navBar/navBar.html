@@ -1,0 +1,66 @@
+<nav class="header">
+
+    <nav class="navbar navbar-default">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header logo_wrapper">
+            <a ng-href="" class="pull-left left-menu-toggle" ng-class ="{hide : hideIcon}">
+                <i class="icon-ham"></i>
+            </a>
+            <a ng-href="" class="pull-left brand">
+                <img class="logo" alt="" src="../assets/images/logo_white_on_red.png"><span class="logo_lext hidden-xs">{{'H1'| translate}}&nbsp;<span class="txt-italic">{{'LABEL_TEXT.OPERATIONS' | translate}}</span></span>
+            </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right navbar-top-links" ng-init="profileData.fulfillment_center_data">
+            <li class="dropdown hidden-xs" ng-if="isStationPage">
+                <a ng-href="" class="dropdown-toggle" data-toggle="dropdown" data-disabled = 'true' role="button" aria-haspopup="true" aria-expanded="false">{{fcDetail.name}} <i class="icon-pdown"></i></a>
+                <div class="dropdown-menu dropdown-menu-right fc-select-dropdown" role="menu">
+                    <form class="form" role="form">
+                        <div class="form-group no-margin">
+                            <input type="text" class="form-control" ng-model="typed" ng-change="getFC(typed)" placeholder="{{'INPUT_TEXT.ENTER_FULFILMENT_CENTER'|translate}}" class="form-control" required>
+                        </div>
+                    </form>
+                    <ul class="fc-select-dropdown-menu">
+                        <li ng-repeat="fc in fcAutoData" class="{{(fc.name==fc_detail.name)?'active':''}}">
+                            <a ng-href="" ng-click="resetFC(fc.fields)">{{fc.fields.name[0]}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-disabled = 'true' aria-haspopup="true" aria-expanded="false">
+                    <i class="icon-dp hidden-xs"></i> <span>{{(profileData.user_profile.first_name ? profileData.user_profile.first_name : profileData.user_profile.username) || userName}}</span>
+                    <i class="icon-pdown"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-if="permissions.length>0"><a href="/password/change">Change Password</a>
+                    </li>
+                    <li><a href="#" ng-click="logout()">Logout</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- /.container-fluid -->
+    </nav>
+
+
+</nav>
+<script>
+    $(function() {
+
+        angular.element('.left-menu-toggle').click(function() {
+            toggle_click();
+        });
+
+        angular.element(".grey_background").click(function() {
+            toggle_click();
+        });
+    });
+
+
+    function toggle_click() {
+        angular.element('.main').toggleClass('full', 1000);
+        angular.element('.content-wrapper').toggleClass('full', 1000);
+        angular.element('#sidebar-wrapper').toggleClass('collapsed', 1000);
+        angular.element('.grey_background').toggleClass('visible', 1000);
+    }
+</script>

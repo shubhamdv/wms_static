@@ -1,0 +1,62 @@
+<section>
+  <nav class="landing-page-header">
+    <div class="container-fluid header hidden">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+      </div>
+    </div>
+  </nav>
+  <div class="content-wrapper">
+    <div class="content-area"> <br>
+      <br>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+            <div class="card login_wrapper_2">
+              <div class="lang">
+                <div data-ng-controller="LanguageCtrl" data-ng-include="'components/language/language.html'"> </div>
+              </div>
+              <div>
+                <img class="login_logo" src="assets/images/logo_white_on_red.png" alt="" />
+                <h4 class="login_title text-uppercase">{{'H1'| translate}}<br>
+                <span class="login_subtitle">{{'LABEL_TEXT.OPERATIONS' | translate}}</span>
+                </h4>
+                <br>
+              </div>
+              <div class="padding_l_r_15">
+                <div class="alert alert-danger text-left" ng-show="vm.isInvalid">
+                  <button ng-click="vm.isInvalid = !vm.isInvalid" class="close">&times;</button>
+                  <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errorMsg | translate}}
+                </div>
+              </div>
+              <form class="login-form" ng-submit="vm.submit()">
+                <div class="form-group clearfix">
+                  <button class="btn btn-red btn-block btn-lg self-center" type="button" ng-click="vm.googleAuth()">
+                  <i class="icon-gplus btn_group_icon"></i><span class="btn_group_text ng-binding">{{'BTN_LOGIN_TEXT_D' | translate}}</span>
+                  </button>
+                </div>
+                <div class="form-group clearfix">
+                  <div class="form_divider">
+                    <span class="text-uppercase">{{'LABEL_TEXT.OR' | translate}}</span>
+                  </div>
+                </div>
+                <div class="form-group clearfix">
+                  <input autocomplete="off" type="text" name="username" id="username" class="form-control" ng-model="vm.user.username" placeholder="{{'USER_NAME_TEXT'| translate}}" aria-describedby="sizing-addon2" focus-if>
+                </div>
+                <div class="form-group ">
+                  <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" placeholder="{{'PASSWORD_TEXT'| translate}}" autocomplete="off" aria-describedby="sizing-addon2">
+                </div>
+                
+                <div class="form-group m-b-0">
+                  <button class="btn btn-primary btn-lg btn-block" type="submit" ng-disabled="!vm.user.username || !vm.user.password">{{ 'BTN_LOGIN_TEXT' | translate }}</button>
+                </div>
+                <div class="form-group text-center"> <a ng-href="/password/recovery" class="link-smxs-txt">{{'INPUT_TEXT.FORGOT_PASSWORD' | translate}}</a> </div>
+                <!-- <hr class="line_after_text"> -->
+                
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

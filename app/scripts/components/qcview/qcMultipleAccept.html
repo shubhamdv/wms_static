@@ -1,0 +1,91 @@
+<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title">{{'LABEL_TEXT.MATCH_PROD_DETAIL' | translate}}</h3>
+  </div>
+  <div class="panel-body">
+    <div class="row" ng-if = "!vm.pcmsDetail.attributes">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+        <dl>
+          <dt>{{'LABEL_TEXT.PROD_NAME' | translate}}</dt>
+          <dd>{{vm.prodDetail.name}}</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row" ng-if = "vm.pcmsDetail.attributes" ng-repeat="attribute in vm.pcmsDetail.attributes" ng-switch on = "$index % 3">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" ng-switch-when = "0" ng-init = "prodDetail = vm.pcmsDetail.attributes[$index]">
+        <dl ng-if="prodDetail.name">
+          <dt>{{prodDetail.name | capitalCase}}</dt>
+          <dd ng-if="prodDetail.name === 'URL'">
+          <a ng-href="{{prodDetail.value}}" ng-if = "prodDetail.value">{{'LABEL_TEXT.CLK_TO_VIEW' | translate}}</a>
+          <span ng-if = "!prodDetail.value">&minus;</span>
+          </dd>
+          <dd ng-if="prodDetail.name !== 'URL'">{{prodDetail.value ? prodDetail.value : '-'}}</dd>
+        </dl>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" ng-switch-when = "0" ng-init = "prodDetail = vm.pcmsDetail.attributes[$index+1]">
+        <dl ng-if="prodDetail.name">
+          <dt>{{prodDetail.name | capitalCase}}</dt>
+          <dd ng-if="prodDetail.name === 'URL'">
+          <a ng-href="{{prodDetail.value}}" ng-if = "prodDetail.value">{{'LABEL_TEXT.CLK_TO_VIEW' | translate}}</a>
+          <span ng-if = "!prodDetail.value">&minus;</span>
+          </dd>
+          <dd ng-if="prodDetail.name !== 'URL'">{{prodDetail.value ? prodDetail.value : '-'}}</dd>
+        </dl>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" ng-switch-when = "0" ng-init = "prodDetail = vm.pcmsDetail.attributes[$index+2]">
+        <dl ng-if="prodDetail.name">
+          <dt>{{prodDetail.name | capitalCase}}</dt>
+          <dd ng-if="prodDetail.name === 'URL'">
+          <a ng-href="{{prodDetail.value}}" ng-if = "prodDetail.value">{{'LABEL_TEXT.CLK_TO_VIEW' | translate}}</a>
+          <span ng-if = "!prodDetail.value">&minus;</span>
+          </dd>
+          <dd ng-if="prodDetail.name !== 'URL'">{{prodDetail.value ? prodDetail.value : '-'}}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title">Measure and check/update the following information</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" ng-repeat="field in vm.qcData.mandatoryField">
+                <dl>
+                    <dt>{{field.name | capitalCase}}
+                        <span ng-if="field.unit">( in {{field.unit | lowercase}} )</span>
+                    </dt>
+                    <dd>{{field.value || field.value === 0 ? field.value :'-' }}</dd>
+                </dl>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" ng-repeat="field in vm.qcData.optionalField">
+                <dl>
+                    <dt>{{field.name | capitalCase}}
+                        <span ng-if="field.unit">( in {{field.unit | lowercase}} )</span>
+                    </dt>
+                    <dd>{{field.value || field.value === 0 ? field.value :'-' }}</dd>
+                </dl>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<div class="panel panel-default" ng-if="vm.rules.instructions.length">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title">Do not forget to check the following:</h3>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="custom_ul_margin">
+        <ul class="custom_list">
+          <li>
+            <ul>
+              <li ng-repeat="ruleInstruction in vm.rules.instructions">{{ruleInstruction.text}}</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
