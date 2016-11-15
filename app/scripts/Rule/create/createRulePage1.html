@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">{{'LABEL_TEXT.RULE.FILTER_BY.ACTIVITY' | translate}}</h4>
+      </div>
+      <div class="panel-body">
+        <div class="col-sm-12 col-md-12 col-lg-10 col-lg-offset-1">
+          <form role="form">
+            <div class="form-group">
+              <label class="text-left">{{'LABEL_TEXT.RULE.FILTER_BY.ACTIVITY' | translate}}</label>
+              <select selectpicker ng-model="vm.createData.activity" data-style="form-control" class="selectpicker form-control">
+                  <option ng-repeat="activity in vm.activityList" value="{{activity}}">{{'ACTIVITY_LIST.' + activity | translate}}
+                  </option>
+                </select>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="form-group text-right">
+      <button class="btn btn-primary" ng-disabled="true"> {{'BTN_PREV'|translate}}</button>
+      <button class="btn btn-primary" ng-click="vm.currentStep=2;vm.step_process(1, 2);"> {{'BTN_NEXT'|translate}}</button>
+    </div>
+  </div>
+
+</div>

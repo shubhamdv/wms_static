@@ -6,7 +6,7 @@
         function config($routeProvider) {
             $routeProvider
                 .when('/404-not-found', {
-                    templateUrl: 'app/Authentication/404page/404.html',
+                    templateUrl: 'scripts/Authentication/404page/404.html',
                     controller: 'pageNotFoundCtrl',
                     controllerAs : 'vm',
                     title: 'PAGE_TITLE.PAGE_404',

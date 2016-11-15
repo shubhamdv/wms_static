@@ -69,7 +69,7 @@ module.exports = function (grunt) {
         port: 8080,
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
-        livereload: 35729
+        livereload: 35728
       },
       livereload: {
         options: {
@@ -270,15 +270,15 @@ module.exports = function (grunt) {
     // By default, your `index.html`'s <!-- Usemin block --> will take care of
     // minification. These next options are pre-configured if you do not wish
     // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
+    cssmin: {
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/styles/main.css': [
+            '.tmp/styles/{,*/}*.css'
+          ]
+        }
+      }
+    },
     // uglify: {
     //   dist: {
     //     files: {
@@ -362,7 +362,11 @@ module.exports = function (grunt) {
       },
       local_dependencies: {
         files: {
-          '<%= yeoman.app %>/index.html': ['<%= yeoman.app %>/scripts/**/*.js', '<%= yeoman.app %>/styles/**/*.css'],
+            '<%= yeoman.app %>/index.html': [
+                '<%= yeoman.app %>/scripts/**/*.js',
+                '<%= yeoman.app %>/components/**/*.js',
+                '<%= yeoman.app %>/styles/**/*.css'
+            ],
         }
       }
     },
@@ -399,7 +403,8 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '*.html',
             'images/{,*/}*.{webp}',
-            'styles/fonts/{,*/}*.*'
+            'styles/fonts/{,*/}*.*',
+            'fonts/{,*/}*'
           ]
         }, {
           expand: true,
@@ -494,7 +499,7 @@ module.exports = function (grunt) {
     'ngAnnotate',
     'copy:dist',
     'cdnify',
-    'cssmin',
+    'cssmin:dist',
     'uglify',
     'filerev',
     'usemin',

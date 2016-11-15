@@ -1,0 +1,218 @@
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <div class="content-area" ng-init="vm.itemDetails()">
+      <div class="title_bar">
+        <ol class="breadcrumb">
+          <li><a ng-href="/item">{{'BRD_CM.5.1' | translate}}</a></li>
+          <li class="active">{{'BRD_CM.5.2' | translate}}</li>
+        </ol>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="alert alert-danger text hidden-print" ng-show="vm.error">
+            <button ng-click="vm.error = !vm.error" class="close">&times;</button>
+            <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errorMsg | translate}}
+          </div>
+          <div class="alert alert-success text-left" ng-show="vm.success">
+            <button ng-click="vm.success = !vm.success" class="close">&times;</button>
+            <b>{{'ALERT_MSG.SUCC_HEAD' | translate}}</b>&nbsp;{{'SUCC_MSG.MSG10' | translate}}
+          </div>
+        </div>
+        <section>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">{{'LABEL_TEXT.ITEM_INFO' | translate}}</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <h3 class="margin_top_0" ng-show="vm.serialNum">
+                        <span class="txt-regular">{{'LABEL_TEXT.SERIAL_TEXT' | translate}}</span>
+                        <span class="txt-semibold">- {{vm.serialNum}} </span>
+                      </h3>
+                    </div>
+                  </div>
+                  <div class="row hide">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <a ng-href="">{{'LABEL_TEXT.SHH' | translate}}</a> </div>
+                  </div>
+                  <table class="table_custom_1 table_custom_2">
+                    <tbody>
+                      <tr>
+                        <td class="vertical_middle">{{'LABEL_TEXT.STATUS' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.STATUS' | translate}}">
+                          <span ng-if="vm.itemDetail.status" class="vertical_middle">{{'ITEM_STATUS.' + vm.itemDetail.status | translate}}</span>
+                          <span ng-if="!vm.itemDetail.status" class="vertical_middle">&minus;</span>
+                          <button class="btn btn-secondary pull-right hide" type="submit">{{'LABEL_TEXT.CHANGE' | translate}}</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.PROD_NAME' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.PROD_NAME' | translate}}">{{vm.itemDetail.prod_detail.name ? vm.itemDetail.prod_detail.name : '-'}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.PROD_NUM' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.PROD_NUM' | translate}}">
+                          <a ng-href="/product/{{vm.itemDetail.prod_sk}}" target="_blank" ng-if="vm.itemDetail.prod_detail.number">{{vm.itemDetail.prod_detail.number}}</a>
+                          <span ng-if="!vm.itemDetail.prod_detail.number">&minus;</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.SUPPLIER_SKU' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.SUPPLIER_SKU' | translate}}">{{vm.itemDetail.prod_sku ? vm.itemDetail.prod_sku : '-'}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.CLIENT' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.CLIENT' | translate}}">{{vm.itemDetail.mlp_detail.client_name ? vm.itemDetail.mlp_detail.client_name : '-'}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}">{{vm.itemDetail.mlp_detail.supplier_store_name ? vm.itemDetail.mlp_detail.supplier_store_name : '-'}}</td>
+                      </tr>
+
+                      <tr>
+                        <td>{{'LABEL_TEXT.FLOW' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.FLOW' | translate}}">{{vm.itemDetail.flow ? vm.itemDetail.flow : '-'}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.TEXT1' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.TEXT1' | translate}}">
+                          <a ng-if="vm.itemDetail.agn_number" ng-href="/asn/{{vm.itemDetail.agn_id}}" target="_blank">{{vm.itemDetail.agn_number}}</a>
+                          <span ng-if="!vm.itemDetail.agn_number">&minus;</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.TEXT2' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.TEXT2' | translate}}">
+                          <a ng-href="/batch/{{vm.itemDetail.po_number}}" target="_blank">{{vm.itemDetail.po_number ? vm.itemDetail.po_number : '-'}}</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.FC_LOC' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.FC_LOC' | translate}}}">{{vm.itemDetail.layout_location ? vm.itemDetail.layout_location : '-'}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.TEXT3' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.TEXT3' | translate}}">{{vm.itemDetail.order_number  ? vm.itemDetail.order_number : '-'}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.PICKLIST_ID' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.PICKLIST_ID' | translate}}">{{vm.itemDetail.picklist  ? vm.itemDetail.picklist : '-'}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.INTERNAL_BUCKET' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.INTERNAL_BUCKET' | translate}}">{{vm.itemDetail.internal_bucket || '-'}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.EXTERNEL_BUCKET' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.EXTERNEL_BUCKET' | translate}}">{{vm.itemDetail.external_bucket || '-'}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+              <form name="editForm">
+                <div class="panel panel-default">
+                  <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left padding_top_5">{{'LABEL_TEXT.ACD_INBOUND' | translate}}</h3>
+                    <button class="btn btn-secondary pull-right margin_bottom_0" ng-if="!vm.isEdit" type="submit" ng-click="vm.editButton()">{{'INPUT_TEXT.EDIT' | translate}}</button>
+                    <button class="btn btn-primary pull-right margin_bottom_0" ng-if="vm.isEdit" type="submit" ng-click="vm.update()" ng-disabled="editForm.imeiNum.$error.minlength || editForm.imeiNum.$error.maxlength">{{'INPUT_TEXT.SAVE' | translate}}</button>
+                    <button class="btn btn-border pull-right margin_bottom_0 margin_right_5" ng-if="vm.isEdit" type="submit" ng-click="vm.isEdit = false">{{'INPUT_TEXT.CANCEL' | translate}}</button>
+                  </div>
+                  <div class="panel-body">
+                    <table class="table_custom_1 table_custom_2 overflow_show">
+                      <tbody>
+                        <tr>
+                          <td>{{'LABEL_TEXT.IMEI' | translate}}</td>
+                          <td data-th="{{'LABEL_TEXT.IMEI' | translate}}" ng-if="!vm.isEdit">{{vm.itemDetail.secondary_serial_one ? vm.itemDetail.secondary_serial_one : '-'}}</td>
+                          <td data-th="{{'LABEL_TEXT.IMEI' | translate}}"  ng-if="vm.isEdit">
+                            <input id="imei_num" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}" ng-model="vm.itemDetail.secondary_serial_one" name="imeiNum" ng-maxlength="15" ng-minlength="14">
+                            <span class="help-block" ng-show="editForm.imeiNum.$error.minlength || editForm.imeiNum.$error.maxlength">{{'ERR_MSG.MSG13' | translate}}</span>
+                          </td>
+                          
+                        </tr>
+                        <tr>
+                          <td>{{'LABEL_TEXT.MRP' | translate}}</td>
+                          <td data-th="{{'LABEL_TEXT.MRP' | translate}}" ng-if="!vm.isEdit">
+                            <span ng-if="!vm.itemDetail.mrp">&minus;</span>
+                            <span ng-if="vm.itemDetail.mrp">{{vm.itemDetail.mrp | number:2}}</span>
+                          </td>
+                          <td data-th="{{'LABEL_TEXT.MRP' | translate}}" ng-if="vm.isEdit">
+                            <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_VALUE' | translate}}" ng-model="vm.itemDetail.mrp" valid-float>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{'LABEL_TEXT.EXP_DATE' | translate}}</td>
+                          <td data-th="{{'LABEL_TEXT.EXP_DATE' | translate}}" ng-if="!vm.isEdit">{{vm.itemDetail.expire_at ? vm.itemDetail.expire_at : '-' | date : 'yyyy-MM-dd'}}</td>
+                          <td data-th="{{'LABEL_TEXT.EXP_DATE' | translate}}" ng-if="vm.isEdit">
+                            <div class="datepicker position_rel date_range" date-format="yyyy-MM-dd" date-min-limit="{{vm.minDate}}">
+                              <input id="ExpDate" ng-model="vm.itemDetail.expire_at" ng-change="vm.removeDate = true" class="form-control style720kb" type="text" readonly="true" placeholder="{{'INPUT_TEXT.EXP_DATE' | translate}}" />
+                              <a class="remove-date" ng-if="vm.removeDate" ng-click="vm.itemDetail.expire_at = vm.expDate; vm.removeDate = false">&times;</a>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{'LABEL_TEXT.LT' | translate}}{{'LABEL_TEXT.CM' | translate}}</td>
+                          <td data-th="{{'LABEL_TEXT.LT' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="!vm.isEdit">
+                            <span ng-if="!vm.itemDetail.length">&minus;</span>
+                            <span ng-if="vm.itemDetail.length">{{vm.itemDetail.length | number:2}}</span>
+                          </td>
+                          <td data-th="{{'LABEL_TEXT.LT' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="vm.isEdit">
+                            <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_VALUE' | translate}}" ng-model="vm.itemDetail.length" valid-float>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{'LABEL_TEXT.WD' | translate}}{{'LABEL_TEXT.CM' | translate}}</td>
+                          <td data-th="{{'LABEL_TEXT.WD' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="!vm.isEdit">
+                            <span ng-if="!vm.itemDetail.width">&minus;</span>
+                            <span ng-if="vm.itemDetail.width">{{vm.itemDetail.width | number:2}}</span>
+                          </td>
+                          <td data-th="{{'LABEL_TEXT.WD' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="vm.isEdit">
+                            <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_VALUE' | translate}}" ng-model="vm.itemDetail.width" valid-float>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{'LABEL_TEXT.HT' | translate}}{{'LABEL_TEXT.CM' | translate}}</td>
+                          <td data-th="{{'LABEL_TEXT.HT' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="!vm.isEdit">
+                            <span ng-if="!vm.itemDetail.height">&minus;</span>
+                            <span ng-if="vm.itemDetail.height">{{vm.itemDetail.height | number:2}}</span>
+                          </td>
+                          <td data-th="{{'LABEL_TEXT.HT' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="vm.isEdit">
+                            <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_VALUE' | translate}}" ng-model="vm.itemDetail.height" valid-float>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{'LABEL_TEXT.WT' | translate}}{{'LABEL_TEXT.KG' | translate}}</td>
+                          <td data-th="{{'LABEL_TEXT.WT' | translate}}{{'LABEL_TEXT.KG' | translate}}" ng-if="!vm.isEdit">
+                            <span ng-if="!vm.itemDetail.weight">&minus;</span>
+                            <span ng-if="vm.itemDetail.weight">{{vm.itemDetail.weight | number:2}}</span>
+                          </td>
+                          <td data-th="{{'LABEL_TEXT.WT' | translate}}{{'LABEL_TEXT.KG' | translate}}" ng-if="vm.isEdit">
+                            <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_VALUE' | translate}}" ng-model="vm.itemDetail.weight" valid-float>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+  </div>
+</section>

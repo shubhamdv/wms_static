@@ -1,0 +1,250 @@
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <div class="content-area">
+      <div class="title_bar">
+        <ol class="breadcrumb">
+          <li class="active">{{'BRD_CM.RULEPAGE.RULE' | translate}}</li>
+        </ol>
+        <div class="action_buttons">
+          <a class="btn btn-border btn-link" ng-href="/rule/create">
+            <i class="fa fa-plus"></i> Create
+          </a>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <section>
+          <div class="row">
+            <div class="alert alert-danger text" ng-show="vm.errorMsg">
+              <button ng-click="vm.errorMsg = ''" class="close">&times;</button>
+              <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errorMsg | translate}}
+            </div>
+            <div class="alert alert-success text" ng-show="vm.savedData.successMsg">
+              <button ng-click="vm.savedData = {}" class="close">&times;</button>
+              <b>{{'ALERT_MSG.SUCC_HEAD' | translate}}</b>&nbsp;{{vm.savedData.successMsg | translate}}</span>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="panel-group custom_accordion" role="tablist" area-multiselectable="true">
+                <div class="panel panel-default">
+                  <div class="panel-heading accordion_heading" role="tab" id="headingOne" data-toggle="collapse" data-parent=".custom_accordion" href="#accordian_collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <h4 class="panel-title heading-title"> <i class="icon-pright"></i><span>{{'LABEL_TEXT.SEARCH_BY' | translate}} </span>
+                      <span class="filter_data hidden">
+                        <span ng-repeat="(key,filter) in vm.filterList" ng-show="vm.asnList && !vm.isObject(filter) && filter!=''">{{$index==0?'|':''}} <i>{{vm.fixStr(key)}}:</i> {{filter?filter:'-'}} | </span>
+                      </span>
+                      <span class="btn_group">
+                      </span>
+                    </h4>
+                  </div>
+
+                  <div id="accordian_collapseOne" class="panel-collapse collapse in js-panel-collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+                    <div class="panel-body">
+                      <ng-form name="ruleSearch">
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.RULE.FILTER_BY.ACTIVITY' | translate}}</label>
+                              <select selectpicker ng-model="vm.filterList.activity" data-style="form-control" class="selectpicker form-control">
+
+                                <option ng-repeat="activity in vm.activityList" value="{{activity}}">{{'ACTIVITY_LIST.' + activity | translate}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group productCategoryAuto">
+                              <label>{{'LABEL_TEXT.RULE.FILTER_BY.PRODUCT_CATEGORY' | translate}}</label>
+                              <tags-input on-tag-added="vm.setValue($tag, 'productCategory')" on-tag-removed="vm.removeTag($tag, 'productCategory')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.productCategory" property-key="sk" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_CAT'|translate}}">
+                                <auto-complete source="vm.getPCMSAutocompleteData($query, 'productCategory')"></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isProductCategory">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group productTypeAuto">
+                              <label for="client">{{'LABEL_TEXT.RULE.FILTER_BY.PRODUCT_TYPE' | translate}}</label>
+                              <tags-input on-tag-added="vm.setValue($tag, 'productType')" on-tag-removed="vm.removeTag($tag, 'productType')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.productType" property-key="sk" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_TYPE'|translate}}">
+                                <auto-complete source="vm.getPCMSAutocompleteData($query, 'productType')"></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isProductType">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group productNameAuto">
+                              <label for="supplier">{{'LABEL_TEXT.RULE.FILTER_BY.PRODUCT_NAME' | translate}}</label>
+                              <tags-input on-tag-added="vm.setValue($tag, 'productName')" on-tag-removed="vm.removeTag($tag, 'productName')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.productName" display-property="title" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+                                <auto-complete source="vm.getPCMSAutocompleteData($query, 'productName')"></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isProductName">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group masterChannelAuto">
+                              <label for="date">{{'LABEL_TEXT.RULE.FILTER_BY.MASTER_CHANNEL' | translate}}</label>
+                              <tags-input on-tag-added="vm.setValue($tag, 'masterChannel')" on-tag-removed="vm.removeTag($tag, 'masterChannel')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.masterChannel" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_MASTER_CHANNEL'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'masterChannel')" focus-if></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isMasterChannel">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group clientPartyAuto">
+                              <label>{{'LABEL_TEXT.RULE.FILTER_BY.CLIENT_PARTY' | translate}}</label>
+                              <tags-input on-tag-added="vm.setValue($tag, 'clientParty')" on-tag-removed="vm.removeTag($tag, 'clientParty')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.clientParty" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_CLIENT_PARTY'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'clientParty')" focus-if></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isClientParty">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group clientStoreAuto">
+                              <label>{{'LABEL_TEXT.RULE.FILTER_BY.CLIENT_STORE' | translate}}</label>
+                              <tags-input on-tag-added="vm.setValue($tag, 'clientStore')" on-tag-removed="vm.removeTag($tag, 'clientStore')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.clientStore" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_CLIENT_STORE'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'clientStore')" focus-if></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isClientStore">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group supplierPartyAuto">
+                              <label>{{'LABEL_TEXT.RULE.FILTER_BY.SUPPLIER_PARTY' | translate}}</label>
+                              <tags-input on-tag-added="vm.setValue($tag, 'supplierParty')" on-tag-removed="vm.removeTag($tag, 'supplierParty')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.supplierParty" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_SUPPLIER_PARTY'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'supplierParty')" focus-if></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isSupplierParty">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group supplierStoreAuto">
+                              <label for="date">{{'LABEL_TEXT.RULE.FILTER_BY.SUPPLIER_STORE' | translate}}</label>
+                              <tags-input on-tag-added="vm.setValue($tag, 'supplierStore')" on-tag-removed="vm.removeTag($tag, 'supplierStore')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.supplierStore" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_SUPPLIER_STORE'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'supplierStore')" focus-if></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isSupplierStore">{{'NO_RECORD' | translate}}</span>
+
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group fulfillmentCenterAuto">
+                              <label for="date">{{'LABEL_TEXT.RULE.FILTER_BY.FULFILMENT_CENTER' | translate}}</label>
+                              <tags-input on-tag-added="vm.setValue($tag, 'fulfillmentCenter')" on-tag-removed="vm.removeTag($tag, 'fulfillmentCenter')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.fulfillmentCenter" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_FULFILMENT_CENTER'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'fulfillmentCenter')" focus-if></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isFulfillmentCenter">{{'NO_RECORD' | translate}}</span>
+
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-primary center-block" type="button" ng-click="vm.ruleSearchList(1, true)" ng-enter = "false">{{'INPUT_TEXT.SEARCH' | translate}}</button>
+                          </div>
+                        </div>
+                      </ng-form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section ng-if="vm.ruleList">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading padding_bottom_0 clearfix">
+                  <div class="pull-left padding_top_5">
+                    <h3 class="panel-title padding_bottom_15">{{'LABEL_TEXT.SEARCH_RESULT' | translate}}&nbsp;&nbsp;<span class="text-info inline" ng-if="!vm.ruleList.length">{{'NO_RECORD' | translate}}</span></h3>
+                  </div>
+                </div>
+                <div>
+                  <table class="table_custom_1" ng-if="vm.ruleList.length">
+                    <thead>
+                      <tr>
+                        <th>{{'LABEL_TEXT.REASONS' | translate}}</th>
+                        <th>{{'LABEL_TEXT.INSTRUCTIONS' | translate}}</th>
+                        <th>{{'LABEL_TEXT.MAND_FIELDS' | translate}}</th>
+                        <th>{{'LABEL_TEXT.OPTIONAL_FIELDS' | translate}}</th>
+                        <th>{{'LABEL_TEXT.PRIORITIES' | translate}}</th>
+                        <th>{{'LABEL_TEXT.PACK_BOX_NUMBER' | translate}}
+                        <th>{{'LABEL_TEXT.ACTION' | translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody ng-repeat="rule in vm.ruleList">
+                      <tr>
+                        <td data-th="{{'LABEL_TEXT.REASONS' | translate}}">
+                          <ul class="table_list">
+                            <li ng-if="rule.reasons" ng-repeat="reason in rule.reasons">
+                              {{$index+1}}. {{reason}}
+                            </li>
+                            <li ng-if="!rule.reasons">-</li>
+                          </ul>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.INSTRUCTIONS' | translate}}">
+                          <ul class="table_list"  ng-if="rule.instructions">
+                            <li ng-repeat="instruction in rule.instructions">
+                              {{$index+1}}. {{instruction}}
+                            </li>
+                          </ul>
+                          <span ng-if="!rule.instructions">-</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.MAND_FIELDS' | translate}}">
+                          <ul class="table_list" ng-if="rule.mandatory_fields" >
+                            <li ng-repeat="mandatory_field in rule.mandatory_fields">
+                              {{$index+1}}. {{mandatory_field || '-'}}
+                            </li>
+                          </ul>
+                          <span ng-if="!rule.mandatory_fields">-</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.OPTIONAL_FIELDS' | translate}}">
+                          <ul class="table_list" ng-if="rule.optional_fields" >
+                            <li ng-repeat="optional_field in rule.optional_fields">
+                              {{$index+1}}. {{optional_field || '-'}}
+                            </li>
+                          </ul>
+                          <span ng-if="!rule.optional_fields">-</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.PRIORITIES' | translate}}">{{rule.priority || '-'}}</td>
+                        <td data-th="{{'LABEL_TEXT.PACK_BOX_NUMBER' | translate}}">
+                          <ul class="table_list" ng-if="rule.pack_box_number.length > 0">
+                            <li ng-repeat="pack_box_number_inner in rule.pack_box_number">
+                              {{pack_box_number_inner}}
+                            </li>
+                          </ul>
+                          <span ng-if="!rule.pack_box_number.length > 0">-</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.ACTION' | translate}}">
+                          <a href="/rule/{{$index}}" ng-click="vm.ruleDataToUpdate(rule);">{{'LABEL_TEXT.EDIT' | translate}}</a> &nbsp;&nbsp;
+                          <a ng-click="vm.viewRuleDetails('lg', $index);">{{'LABEL_TEXT.VIEW_DETAIL' | translate}}</a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</section>

@@ -1,0 +1,185 @@
+<!-- To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor. -->
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div class="grey_background"></div>
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <div class="content-area">
+      <ol class="breadcrumb">
+        <li class="active"> {{'BRD_CM.7.1' | translate}}</li>
+      </ol>
+      <div class="container-fluid">
+        <div class="row">
+          <h4 class="page_title">{{'BRD_CM.7.1' | translate}}</h4>
+        </div>
+        <div class="row">
+          <div class="alert alert-danger text" ng-show="error">
+            <button ng-click="error = !error" class="close">&times;</button>
+            <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{errorMsg | translate}}
+          </div>
+        </div>
+        <!-- filters start here-->
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p class="text-sm filter_head">{{'LABEL_TEXT.FILTER' | translate}}</p>
+          </div>
+        </div>
+        <div class="row create_page">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <label>{{'LABEL_TEXT.PROD_NUM' | translate}}</label>
+              <form ng-submit="productChnlMapList()">
+                <input type="text" autocomplete="off" ng-model="filterData.prodNum" placeholder="{{'INPUT_TEXT.ENTER_COMMA' | translate}}" class="form-control">
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <label>{{'LABEL_TEXT.CHANNEL' | translate}}</label>
+              <form ng-submit="productChnlMapList()">
+                <input type="text" class="form-control" ng-model="filterData.channelName" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group createClient">
+              <label for="client">{{'LABEL_TEXT.CLIENT' | translate}}</label>
+              <tags-input id="client" on-tag-added="setValue($tag, 'client')" on-tag-removed="removeTag($tag, 'client')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="filter.client" property-key="sk" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+            <auto-complete source="getAutocompleteData($query, 'client')"></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="norecordClient">{{'NO_RECORD' | translate}}</span>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label>{{'LABEL_TEXT.SELLER_SKU_CHANNEL' | translate}}</label>
+            <form ng-submit="productChnlMapList()">
+              <input type="text" class="form-control" ng-model="filterData.sellerSku" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row create_page">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label>{{'LABEL_TEXT.LID' | translate}}</label>
+            <form ng-submit="productChnlMapList()">
+              <input type="text" class="form-control" ng-model="filterData.listingId" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}">
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label>{{'LABEL_TEXT.CHANNEL_SKU' | translate}}</label>
+            <form ng-submit="productChnlMapList()">
+              <input type="text" class="form-control" ng-model="filterData.channelSku" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label>{{'LABEL_TEXT.AVAIL_TEXT' | translate}}</label>
+            <br>
+            <label class="radio-inline">
+              <input type="radio" ng-model="filterData.avail" ng-click="productChnlMapList(pageNo)" name="inlineRadioOptions" id="inlineRadio2" value="true"> {{'LABEL_TEXT.ACTIVE' | translate}}
+            </label>
+            <label class="radio-inline">
+              <input type="radio" ng-model="filterData.avail" ng-click="productChnlMapList(pageNo)" name="inlineRadioOptions" id="inlineRadio1" value="false"> {{'LABEL_TEXT.INACTIVE' | translate}}
+            </label>
+            <label class="radio-inline">
+              <input type="radio" ng-model="filterData.avail" ng-click="productChnlMapList(pageNo)" name="inlineRadioOptions" id="inlineRadio3" value="both"> {{'LABEL_TEXT.BOTH' | translate}}
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- filters End here-->
+      <!-- Pagination starts here -->
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="list.results.length">
+          <nav class="text-right">
+            <ul class="pager">
+              <li class="text">
+                <strong>{{(startCount+1) + " - "}}{{lastCount}}</strong> of {{totalCount}} {{resultText | translate}}
+              </li>
+              <li>
+                <a ng-class="{anchorDisabled : (pageNo < 2)}" ng-click="productChnlMapList(pageNo-1)" ng-model="pre">
+                  <i class="icon-previous"></i>
+                </a>
+              </li>
+              <li>
+                <a ng-class="{anchorDisabled : (lastCount === totalCount)}" ng-click="productChnlMapList(pageNo+1)" href="#">
+                  <i class="icon-next"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <!-- Pagination ends here -->
+      <div class="row" ng-init="productChnlMapList()">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <table class="table_custom_1">
+            <thead>
+              <tr>
+                <th width="24px"></th>
+                <th>{{'LABEL_TEXT.PROD_NUM' | translate}}</th>
+                <th>{{'LABEL_TEXT.CLIENT' | translate}}</th>
+                <th>{{'LABEL_TEXT.CHANNEL' | translate}}</th>
+                <th>{{'LABEL_TEXT.SELLER_SKU_CHANNEL' | translate}}</th>
+                <th>{{'LABEL_TEXT.CHANNEL_SKU' | translate}}</th>
+                <th>{{'LABEL_TEXT.LID' | translate}}</th>
+                <th>{{'LABEL_TEXT.ALLOCATION' | translate}}</th>
+                <th>{{'LABEL_TEXT.MASTER_CHANNEL_URL' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="row in list.results">
+                <td>
+                  <input type="radio" name="edit_select" ng-model="radioSelect.value" ng-change="toJson($index)" value="{{row}}">
+                </td>
+                <td data-th="{{'LABEL_TEXT.PROD_NUM' | translate}}"><a href="/product/{{row.product_sk}}">{{row.product_number}}</a> <span ng-if="!row.active" class="label label-danger">{{'LABEL_TEXT.INACTIVE' | translate}}</span></td>
+                <td data-th="{{'LABEL_TEXT.CLIENT' | translate}}">{{row.client_name ? row.client_name : '-'}}</td>
+                <td data-th="{{'LABEL_TEXT.CHANNEL' | translate}}">{{row.channel ? row.channel : '-'}}</td>
+                <td data-th="{{'LABEL_TEXT.SELLER_SKU_CHANNEL' | translate}}">{{row.client_store_seller_sku ? row.client_store_seller_sku : '-'}}</td>
+                <td data-th="{{'LABEL_TEXT.CHANNEL_SKU' | translate}}">{{row.client_store_product_number ? row.client_store_product_number : '-'}}</td>
+                <td data-th="{{'LABEL_TEXT.LID' | translate}}">{{row.listing_id ? row.listing_id : '-'}}</td>
+                <td data-th="{{'LABEL_TEXT.ALLOCATION' | translate}}">{{row.allocation_number ? row.allocation_number : '-'}} <span ng-if="row.allocation_operation === 'percent' || row.allocation_operation === '%'">{{'LABEL_TEXT.PERCENT' | translate}}</span> <span ng-if="row.allocation_operation === 'pcs' || row.allocation_operation === 'Quantity (pcs)'">{{'LABEL_TEXT.PCS' | translate}}</span></td>
+                <td data-th="{{'LABEL_TEXT.MASTER_CHANNEL_URL' | translate}}"><a target="_blank" ng-href="{{row.url ? row.url : '-'}}">{{row.url ? row.url : '-'}}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div ng-if="(list.results.length===0) || isNoRecord">
+          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+            <br/> &nbsp;&nbsp;{{'NO_RECORD' | translate}}
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+  </div>
+  <div class="content-area-footer">
+    <div class="dropup pull-left hide">
+      <button ng-disabled="selectedRow.length" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{'LABEL_TEXT.DOWNLOAD_REPORT' | translate}} <span class="dropdown_btn pipe">|</span> <span class="caret dropdown_btn"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="#" ng-click="CSVDownload()">{{'LABEL_TEXT.LINK1' | translate}}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" ng-disabled = "!allocBtn" data-toggle="modal" ng-click="openAllocationModal()">{{'LABEL_TEXT.EDIT_ALLOC' | translate}}</button>
+  </div>
+</div>
+</div>
+</section>

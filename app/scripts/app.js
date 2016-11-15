@@ -51,15 +51,14 @@
     config.$inject = [ '$routeProvider', '$locationProvider', '$httpProvider', 'cfpLoadingBarProvider', 'localStorageServiceProvider'];
 
     function config($routeProvider, $locationProvider, $httpProvider, cfpLoadingBarProvider, localStorageServiceProvider) {
-        console.log($routeProvider);
         localStorageServiceProvider.setPrefix('GM');
         $routeProvider
-            .otherwise('/asn');
-        $locationProvider.html5Mode({
-            enabled: false,
-            requireBase: false
-        });
-
+            .otherwise('/');
+        // $locationProvider.html5Mode({
+        //     enabled: false,
+        //     requireBase: false
+        // });
+        $locationProvider.html5Mode(true);
 
         cfpLoadingBarProvider.includeSpinner = true;
         cfpLoadingBarProvider.includeBar = true;
@@ -69,6 +68,7 @@
                 responseError: function(response) {
                     // Check precondition is satisfy or not
                     if (response.status === 403 && response.config.method === 'HEAD') {
+                        console.log("In app.js redirecting to fc");
                         $location.path('/select/fc');
                     }
                     // login or not
@@ -95,6 +95,7 @@
             }
 
             if($location.path() === '/'){
+                console.log('222227777777777777777');
                 $location.path('/login');
             }
 
@@ -122,6 +123,7 @@
                             .error(verificationError);
                     }
                 } else {
+                    console.log("1111111111111111");
                     $location.path('/login');
                 }
             }
@@ -134,7 +136,7 @@
                 }
             }
 
-            function verificationSuccess(){
+            function verificationSuccess(res){
                 $cookies.put('isLogged', true);
                 if (nextRoute.access.requiredLogin) {
                     preConditionCheck();
@@ -170,6 +172,7 @@
                     });
                     checkStation();
                 } else {
+                    console.log("333333333333333");
                     $location.path('/login').replace();
                     setDataError();
                 }
@@ -177,8 +180,10 @@
 
             function verificationError(response, status) {
                 var isRestricted = false;
+                console.log(response)
                 if (status === 401) {
                     if( settings.NON_RESTRICTED_URLS.indexOf($location.path()) < 0 ) {
+                        console.log("55555555555555")
                         $location.path('/login');
                     }
                 } else {
@@ -187,6 +192,7 @@
             }
 
             function setDataError(){
+                console.log('hererereez the buggggg')
                 sessionManagement.forgetSession();
             }
         });

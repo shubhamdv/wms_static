@@ -1,0 +1,210 @@
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <div class="content-area">
+      <div class="title_bar">
+        <ol class="breadcrumb">
+          <li class="active">{{'BRD_CM.5.1' | translate}}</li>
+        </ol>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="alert alert-danger text" ng-show="vm.error">
+            <button ng-click="vm.error = !vm.error" class="close">&times;</button>
+            <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errorMsg | translate}}
+          </div>
+          <div class="alert alert-success text" ng-show="vm.msgSuccess">
+            <button ng-click="vm.msgSuccess = null" class="close">&times;</button>
+            <b>{{'ALERT_MSG.SUCC_HEAD' | translate}}</b>&nbsp;{{vm.msgSuccess | translate}}</span>
+          </div>
+        </div>
+        
+        <!-- Filter Section -->
+        <section>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="panel-group custom_accordion" role="tablist" area-multiselectable="true">
+                <div class="panel panel-default">
+
+                  <div class="panel-heading accordion_heading" role="tab" id="headingOne" data-toggle="collapse" data-parent=".custom_accordion" href="#accordian_collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <h4 class="panel-title heading-title"> <i class="icon-pright"></i><span>{{'LABEL_TEXT.SEARCH_BY' | translate}} </span>
+                      <span class="filter_data hidden">
+                        <span ng-repeat="(key,filter) in vm.filterList" ng-show="vm.asnList && !vm.isObject(filter) && filter!=''">{{$index==0?'|':''}} <i>{{vm.fixStr(key)}}:</i> {{filter?filter:'-'}} | </span>
+                      </span>
+                      <span class="btn_group">
+                      </span>
+                    </h4>
+                  </div>
+
+                  <div id="accordian_collapseOne" class="panel-collapse collapse in js-panel-collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+                    <div class="panel-body">
+                      <section>
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.SERIAL_TEXT' | translate}}</label>
+                              <input type="text" autocomplete="off" ng-model="vm.filterList.serialNum" placeholder="{{'INPUT_TEXT.ENTER_COMMA' | translate}}" class="form-control" focus-if>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.STATUS' | translate}}</label>
+                              <select selectpicker id="status" ng-model="vm.filterList.status" class="selectpicker form-control" data-style = "form-control">
+                                <option value="any">{{'LABEL_TEXT.CHOOSE' | translate}}</option>
+                                <option ng-repeat="item in vm.statusList | orderBy : 'status'" value="{{item.key}}">{{item.status}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group clientAuto">
+                              <label>{{'LABEL_TEXT.CLIENT' | translate}}</label>
+                              <tags-input id="client" on-tag-added="vm.setValue($tag, 'client')" on-tag-removed="vm.removeTag($tag, 'client')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filter.client" property-key="sk" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'client')"></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.norecordClient">
+                                {{'NO_RECORD' | translate}}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group supplierAuto">
+                              <label>{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</label>
+                              <tags-input id="supplier" on-tag-added="vm.setValue($tag, 'supplier')" on-tag-removed="vm.removeTag($tag, 'supplier')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filter.supplier" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'supplier')" focus-if></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.norecordSupplier">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.PROD_NUM' | translate}}</label>
+                              <input type="text" class="form-control" ng-model="vm.filterList.prodNum" placeholder="{{'INPUT_TEXT.ENTER_COMMA' | translate}}">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group productAuto">
+                              <label>{{'LABEL_TEXT.PROD_NAME' | translate}}</label>
+                              <tags-input id="prodname" on-tag-added="vm.setValue($tag, 'product')" on-tag-removed="vm.removeTag($tag, 'product')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filter.product" property-key="sk" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'product')"></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.norecordProdName">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.LOCATION' | translate}}</label>
+                              <input type="text" placeholder="{{'INPUT_TEXT.ENTER_LOCATION' | translate}}" class="form-control" ng-model="vm.filterList.locationValue">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.PICKLIST_ID' | translate}}</label>
+                              <input type="text" ng-model="vm.filterList.pickListId" placeholder="{{'INPUT_TEXT.ENTER_PICK_ID' | translate}}" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.DATE_RANGE' | translate}}</label>
+                              <div class="date_range">
+                                <input id="date" date-range-picker class="form-control date-picker" placeholder="{{'INPUT_TEXT.DD_MM_YYYY' | translate}}" type="text" ng-model="vm.filterList.date" options="{eventHandlers: {'apply.daterangepicker': vm.fetchDateRange()},format: 'YYYY-MM-DD'}" readonly="true" range="false"/>
+                                <a class="remove-date" ng-if="vm.startDate && vm.endDate" ng-click="vm.removeDateRange()">&times;</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.TEXT2' | translate}}</label>
+                              <input type="text" ng-model="vm.filterList.poNum" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.TEXT1' | translate}}</label>
+                              <input type="text" ng-model="vm.filterList.asnNum" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                          <button id="submit" class="btn btn-primary center-block" type="button" ng-click="vm.itemManageList(1, true)" ng-enter="false">{{'INPUT_TEXT.SEARCH' | translate}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Serach result section start -->
+        <section ng-if="vm.itemList">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading padding_bottom_0 clearfix">
+                  <div class="pull-left padding_top_5">
+                    <h3 class="panel-title padding_bottom_15">{{'LABEL_TEXT.SEARCH_RESULT' | translate}}&nbsp;&nbsp;<span class="text-info inline" ng-if="!vm.itemList.length">{{'NO_RECORD' | translate}}</span></h3>
+                  </div>
+                  <div class="visible-xs margin_top_25"></div>
+                  <nav class="pull-right" ng-if="vm.itemList.length">
+                    <button class="btn btn-secondary pull-left margin_right_5" type="button" ng-click="vm.csvDownload()">{{'INPUT_TEXT.DOWNLOAD_CSV' | translate}}</button>
+                    <ul class="pager pull-left">
+                      <li class="text"> <span class="current">{{(vm.startCount+1) + " - "}}{{vm.lastCount}}</span><span>{{'LABEL_TEXT.OF' | translate}}&nbsp;{{vm.totalCount}}&nbsp;{{vm.resultText | translate}}</span> </li>
+                      <li>
+                        <a ng-class="{anchorDisabled : (vm.pageNo < 2)}" ng-click="vm.itemManageList(vm.pageNo-1)" ng-model="pre" ng-href="">
+                          <i class="icon-previous"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a ng-class="{anchorDisabled : (vm.lastCount === vm.totalCount)}" ng-click="vm.itemManageList(vm.pageNo+1)" ng-href="">
+                        <i class="icon-next"></i></a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                <div id="collapse_table">
+                  <table class="table_custom_1">
+                    <thead>
+                      <tr>
+                        <th>{{'LABEL_TEXT.SERIAL_TEXT' | translate}}</th>
+                        <th>{{'LABEL_TEXT.PROD_NAME' | translate}}</th>
+                        <th>{{'LABEL_TEXT.PROD_NUM' | translate}}</th>
+                        <th>{{'LABEL_TEXT.LOCATION' | translate}}</th>
+                        <th>{{'LABEL_TEXT.STATUS' | translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat = "row in vm.itemList">
+                        <td><a ng-href="/item/{{row.serial}}" target="_blank">{{row.serial || '-'}}</a></td>
+                        <td data-th="{{'LABEL_TEXT.PROD_NAME' | translate}}">{{row.prod_name || '-'}}</td>
+                        <td data-th="{{'LABEL_TEXT.PROD_NUM' | translate}}">{{row.prod_number || '-'}}</td>
+                        <td data-th="{{'LABEL_TEXT.LOCATION' | translate}}">{{row.layout_location || '-'}}</td>
+                        <td data-th="{{'LABEL_TEXT.STATUS' | translate}}" ng-if="row.status">{{'ITEM_STATUS.' + row.status | translate }}</td>
+                        <td data-th="{{'LABEL_TEXT.STATUS' | translate}}" ng-if="!row.status">{{row.status ? row.status : '-'}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</section>

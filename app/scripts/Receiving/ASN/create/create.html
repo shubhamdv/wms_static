@@ -1,0 +1,199 @@
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <div class="content-area">
+      <ol class="breadcrumb">
+        <li>{{'BRD_CM.RCVING.RCV' | translate}}</li>
+        <li ng-class="{active: page == 'create'}">
+          <a ng-href="" ng-click="addClientDetail()">{{'BRD_CM.RCVING.CRE_ASN' | translate}}</a>
+        </li>
+        <li ng-class="{active: page == 'addProduct'}" ng-if="(page === 'addProduct' ) || (page === 'summary' )">
+          <a ng-href="" ng-click="addProducts()">{{'BRD_CM.RCVING.ADD_PROD' | translate}}</a>
+        </li>
+        <li ng-class="{active: page == 'summary'}" ng-if="(page === 'summary')">
+          {{'BRD_CM.RCVING.ASN_SUMMARY' | translate}}
+        </li>
+      </ol>
+      <div class="container-fluid">
+        <div class="row">
+          <h4 class="page_title" ng-if="(page === 'create')">{{'BRD_CM.RCVING.CRE_ASN' | translate}}</h4>
+          <h4 class="page_title" ng-if="(page === 'addProduct' )">{{'BRD_CM.RCVING.ADD_PROD' | translate}}</h4>
+          <h4 class="page_title" ng-if="(page === 'summary')">{{'BRD_CM.RCVING.ASN_SUMMARY' | translate}}</h4>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+              <div class="alert alert-danger text-left" ng-show="error">
+                <button ng-click="error = !error" class="close">&times;</button>
+                <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp; {{errMsg | translate}}
+                <span ng-if="!isQuantity">{{errRow}}</span>
+              </div>
+              <div class="alert alert-info text-left" ng-show="info">
+                <button ng-click="info = !info" class="close">&times;</button>
+                <b>{{'ALERT_MSG.INFO_HEAD' | translate}}</b>&nbsp;{{'INFO_MSG.IMSG1' | translate}}
+              </div>
+              <div class="alert alert-success text-left" ng-show="success">
+                <button ng-click="success = !success" class="close">&times;</button>
+                <b>{{'ALERT_MSG.SUCC_HEAD' | translate}}</b>&nbsp;{{'LABEL_TEXT.TEXT1' | translate}}&nbsp;
+                <a class="alert-link" ng-href="/procurement/asn/{{asnId}}">{{source}}</b></a>&nbsp;{{'SUCC_MSG.MSG1' | translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row create_page" ng-show="page === 'create'">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <form class="m-t-32" name="createClient">
+              <div class="form-group createClient">
+                <label for="client">{{'LABEL_TEXT.CLIENT_STORE' | translate}} <span class="text-danger">*</span></label>
+                <tags-input id="client" on-tag-added="setValue($tag, 'client')" on-tag-removed="removeTag($tag, 'client')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="createASNData.client" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}"
+                autofocus>
+              <auto-complete source="getAutocompleteData($query, 'client')"></auto-complete>
+              </tags-input>
+              <span class="help-block text-left text-error" ng-show="noClientrecord">{{'NO_RECORD' |translate}}</span>
+            </div>
+            <div class="form-group createSupplier">
+              <label for="supplier">{{'LABEL_TEXT.SUPPLIER_STORE' | translate}} <span class="text-danger">*</span></label>
+              <tags-input id="supplier" on-tag-added="setValue($tag, 'supplier')" on-tag-removed="removeTag($tag, 'supplier')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="createASNData.supplier" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+            <auto-complete source="getAutocompleteData($query, 'supplier')" focus-if></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="noSupplierrecord">{{'NO_RECORD' | translate}}</span>
+          </div>
+          <div class="form-group">
+            <label for="vendor">{{'LABEL_TEXT.VENDOR' | translate}}</label>
+            <input id="vendor" autocomplete="off" type="text" ng-model="createASNData.vendor" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_NAME' | translate}}">
+          </div>
+          <div class="form-group">
+            <label for="shipment">{{'LABEL_TEXT.SHIP_NUM' | translate}} <span class="text-danger">*</span></label>
+            <input id="shipment" autocomplete="off" ng-model="createASNData.shipNum" type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}" required>
+          </div>
+          <div class="form-group">
+            <button ng-disabled="createClient.$invalid" class="btn btn-red" ng-click="addProducts()">{{'INPUT_TEXT.NEXT' | translate}}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row create_page" ng-if="page !== 'create'">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p class="page_heading">{{createASNData.shipNum}} </p>
+          </div>
+        </div>
+        <div class="row details_row">
+          <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+            <dl>
+              <dt>{{'LABEL_TEXT.CLIENT_STORE' | translate}}</dt>
+              <dd>{{data.client ? data.client.name : '-'}}</dd>
+            </dl>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+            <dl>
+              <dt>{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</dt>
+              <dd>{{data.supplier ? data.supplier.name : '-'}}</dd>
+            </dl>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+            <dl>
+              <dt>{{'LABEL_TEXT.VENDOR' | translate}}</dt>
+              <dd>{{createASNData.vendor}}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid" ng-if="page !== 'summary'">
+        <div class="row">
+          <form class="m-t-32" name="addProduct" novalidate="novalidate">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group addProduct">
+                <tags-input on-tag-added="setValue($tag, 'product')" on-tag-removed="removeTag($tag, 'product')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="product.value" display-property="name" key-property="sk" placeholder="{{'INPUT_TEXT.PROD_SKU' | translate}}">
+              <auto-complete source="getAutocompleteData($query, 'product')" focus-if></auto-complete>
+              </tags-input>
+              <span class="help-block text-left text-error" ng-show="norecord">{{'NO_RECORD' | translate}}</span>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <input type="text" valid-number ng-model="product.qt" class="form-control" placeholder="{{'LABEL_TEXT.QT' | translate}}" ng-required="true" />
+            </div>
+          </div>
+          <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+            <div class="form-group">
+              <button ng-disabled="addProduct.$invalid || product.qt < 1" class="btn btn-secondary" ng-click="createProductList()">{{'INPUT_TEXT.ADD_PROD' | translate}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <nav class="text-right">
+            <ul class="pager">
+              <li class="text">
+                <!-- <span class="current">1-1</span> -->
+                <span>{{products.length}} {{productText | translate}}</span>
+              </li>
+              <!-- <li><a href="#"><i class="icon-previous"></i></a></li>
+              <li><a href="#"><i class="icon-next"></i></a></li> -->
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <table class="table_custom_1">
+            <thead>
+              <tr>
+                <th>{{'LABEL_TEXT.PROD' | translate}}</th>
+                <th>{{'LABEL_TEXT.SKU' | translate}}</th>
+                <th>{{'LABEL_TEXT.QT' | translate}}</th>
+                <th ng-if="page !== 'summary'"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="prod in products">
+                <td>{{prod.name}}</td>
+                <td data-th="{{'LABEL_TEXT.SKU' | translate}}">
+                  <span>{{prod.prod_number}}</span>
+                </td>
+                <td data-th="{{'LABEL_TEXT.QT' | translate}}" ng-init="edit[$index] = false">
+                  <span ng-show="(page === 'summary')">{{prod.quantity}}</span>
+                  <span ng-show="(page !== 'summary')">
+                    <input type="text" ng-change="onQuanChange(prod)" valid-number autocomplete="off" ng-model="prod.quantity" name="quantity" class="form-control width120 inline" placeholder="{{'LABEL_TEXT.QT' | translate}}">
+                  </span>
+                </td>
+                <td data-th="Actions" ng-if="page !== 'summary'"><a ng-click="removeProduct(prod, $index)" class="table_icon"><i class="icon-delete"></i></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+  </div>
+  <div class="content-area-footer" ng-if="page !== 'create'">
+    <button class="btn btn-secondary pull-left" ng-if="page === 'addProduct'" type="button" ng-click="refreshPage()">{{'INPUT_TEXT.CANCEL' | translate}}
+    </button>
+    <button class="btn btn-secondary pull-left" ng-if="page === 'summary'" type="button" ng-click="addProducts()">{{'INPUT_TEXT.BACK_ADD_PROD' | translate}}
+    </button>
+    <button type="button" ng-disabled="!products.length>0 || !isQuantity" ng-if="page === 'addProduct'" class="btn btn-red pull-right" ng-click="summary()">{{'INPUT_TEXT.NEXT' | translate}}
+    </button>
+    <button type="button" ng-disabled="!products.length>0" ng-if="page === 'summary'" class="btn btn-red pull-right" ng-click="createASN()">{{'INPUT_TEXT.CRE_TEXT1' | translate}}
+    </button>
+  </div>
+</div>
+</div>
+</div>
+</section>

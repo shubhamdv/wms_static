@@ -1,0 +1,244 @@
+<section id="itemRcvPage">
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+
+  <div class="content-wrapper menu_visible">
+    <div class="grey_background"></div>
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <div class="content-area">
+      <div class="title_bar">
+        <ol class="breadcrumb">
+          <li class="active">{{'BRD_CM.RCVING.RCV_ITEM' | translate}}</li>
+        </ol>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="alert alert-danger text" ng-show="vm.error">
+            <button ng-click="vm.error = !vm.error" class="close" type="button">&times;</button>
+            <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;<span ng-if="!vm.isBatchError">{{vm.errorMsg | translate}}</span><span ng-if="vm.isBatchError">{{'ERR_MSG.ALLREADY_STATE' | translate}}&nbsp;'{{'BATCH_STATUS.' + vm.status | translate}}'.</span>
+          </div>
+          <div class="alert alert-info text" ng-show="vm.isComboInfo">
+            <button ng-click="vm.isComboInfo = !vm.isComboInfo" class="close">&times;</button>
+            <b>{{'ALERT_MSG.INFO_HEAD' | translate}}</b>&nbsp;{{vm.infoMsg | translate}}&nbsp;{{vm.prodNum}}</span>
+          </div>
+          <div class="alert alert-success text" ng-show="vm.success">
+            <button ng-click="vm.success = !vm.success" class="close">&times;</button>
+            <b>{{'ALERT_MSG.SUCC_HEAD' | translate}}</b>&nbsp;{{'LABEL_TEXT.YOU_RCV' | translate}}&nbsp;{{vm.rcvItemQty}}&nbsp;{{'LABEL_TEXT.ITEM_IN_BATCH' | translate}}&nbsp;{{vm.batchNum}}</span>
+          </div>
+        </div>
+        <!-- Input Batch Number Section -->
+        <section>
+          <div class="row">
+            <div class="col-lg-5 col-md-7 col-sm-9 col-xs-12">
+              <form name="batchNumForm" ng-submit="vm.fetchBatchDetail()" ui-keypress="{13:'vm.fetchBatchDetail($event)'}">
+                <div class="form-group scan_input">
+                  <h4 class="txt-semibold">{{'LABEL_TEXT.BATCH_TO_RCV' | translate}}</h4>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <i class="icon-scan"></i>
+                    </span>
+                    <input type="text" autocomplete="off" aria-describedby="sizing-addon2" placeholder="{{'INPUT_TEXT.SCAN_TEXT2' | translate}}" class="form-control md" ng-model="vm.batchNumber" id="batch_number" ng-readonly="vm.batchDetails" focus-if>
+                    <a class="remove-date" ng-if="vm.batchDetails" ng-click="vm.batchDetails = ''; vm.batchNumber = ''">&times;</a>
+                  </div>
+                  <p ng-if="!vm.batchDetails">{{'PAGE_CONTENT.RCV.ITEM.CON1' | translate}}</p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Input Batch Number Section End-->
+        <section ng-if="vm.batchDetails">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                  <div class="pull-left">
+                    <h3 class="panel-title">{{'BRD_CM.RCVING.BATCH_DETAILS' | translate}}</h3>
+                  </div>
+                </div>
+                <div class="panel-body padding_bottom_0">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                      <dl>
+                        <dt>{{'LABEL_TEXT.TEXT1' | translate}}</dt>
+                        <dd>{{vm.batchDetails.source_number}}</dd>
+                      </dl>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                      <dl>
+                        <dt>{{'LABEL_TEXT.CLIENT_STORE' | translate}}</dt>
+                        <dd>{{vm.batchDetails.client_store_name}}</dd>
+                      </dl>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                      <dl>
+                        <dt>{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</dt>
+                        <dd>{{vm.batchDetails.supplier_store_name}}</dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <hr class="custom_hr" ng-if="vm.products">
+                  <div class="row padding_top_5" ng-if="vm.products">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="pull-left form-inline">
+                        <h4 class="pull-left margin_right_5 txt-semibold" ng-if="vm.products.length">{{'LABEL_TEXT.EXP_PROD' | translate}}</h4>
+                        <form name="vm.productSearch" ng-submit="vm.fetchProductList(1,true)" ui-keypress="{13:'vm.fetchProductList(1,true)'}" class="pull-left" ng-if="vm.products.length">
+                          <input type="text" class="form-control width_170" ng-model="vm.prodSearch" placeholder="{{'INPUT_TEXT.SEARCH_NAM_NUM' | translate}}" focus-if />
+                        </form>
+                        <h4 class="pull-left margin_right_5 txt-semibold" ng-if="!vm.products.length"><span class="text-info inline">{{'LABEL_TEXT.NO_ITM_BATCH' | translate}}</span></h4>
+                      </div>
+                      <div class="visible-xs margin_top_35"></div>
+                      <nav class="pull-right" ng-if="vm.products.length">
+                        <ul class="pager pull-left">
+                          <li class="text">
+                            <span class="current">{{(vm.startCount+1) + " - "}}{{vm.lastCount}}</span>
+                            <span>{{'LABEL_TEXT.OF' | translate}}&nbsp;{{vm.totalCount}} {{vm.resultText | translate}}</span>
+                          </li>
+                          <li>
+                            <a ng-href="" ng-class="{anchorDisabled : (vm.pageNo < 2)}" ng-click="vm.fetchProductList(vm.pageNo-1)" ng-model="pre">
+                              <i class="icon-previous"></i>
+                            </a>
+                          </li>
+                          <li>
+                            <a ng-href="" ng-class="{anchorDisabled : (vm.lastCount === vm.totalCount)}" ng-click="vm.fetchProductList(vm.pageNo+1)">
+                              <i class="icon-next"></i>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+                <div id="collapse_table" ng-if="vm.products.length">
+                
+                  <table class="table_custom_1 overflow_visible">
+                    <thead>
+                      <tr>
+                        <th width="12%">{{'LABEL_TEXT.PROD_NUM' | translate}}</th>
+                        <th width="25%">{{'LABEL_TEXT.PROD_NAME' | translate}}</th>
+                        <th width="10%">{{'LABEL_TEXT.UNIT_RCV' | translate}}</th>
+                        <th width="10%">{{'LABEL_TEXT.MRP' | translate}}</th>
+                        <th width="10%">{{'LABEL_TEXT.EXP_DATE' | translate}}</th>
+                        <th width="10%"></th>
+                        <th width="12%">{{'LABEL_TEXT.SER_PRINT' | translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody ng-repeat = "prod in vm.products" ng-init="expand.$index = false; open[$index] = false;">
+                      
+                        <tr class="accordion-toggle" data-toggle="collapse" data-parent="#collapse_table" data-target=".product_{{$index}}" ng-click="vm.componentProdList(prod.prod_sk, $index, prod.prod_number, prod.combo); expand.$index = !expand.$index">
+                        
+                          <td>
+                            <i class="indicator icon-pright rotate" ng-if="prod.combo" ng-class="{true: 'icon-pdown', false: 'icon-pright'}[expand.$index && !vm.isComboInfo]"></i>{{prod.prod_number ? prod.prod_number : '-'}}
+                          </td>
+                          <td data-th="{{'LABEL_TEXT.PROD_NAME' | translate}}">{{prod.prod_name ? prod.prod_name : '-'}}</td>
+                          <td data-th="{{'LABEL_TEXT.UNIT_RCV' | translate}}" ng-if="!prod.combo">
+                            <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_COUNT' | translate}}" ng-model="vm.qty[$index]" ng-click ="$event.stopPropagation()" ng-disabled="!(vm.parseInt(prod.product_qty) - vm.parseInt(prod.received_qty)) > 0" valid-number ng-required="true">
+
+                            <span class="help-block text_11px padding_top_2" ng-show="vm.parseInt(prod.product_qty) < (vm.parseInt(vm.qty[$index]) + vm.parseInt(prod.received_qty)) && (vm.parseInt(prod.product_qty) - vm.parseInt(prod.received_qty))">{{'LABEL_TEXT.NOT_MORE_THAN' | translate}}&nbsp;{{vm.parseInt(prod.product_qty) - vm.parseInt(prod.received_qty)}}</span>
+                          </td>
+                          <td data-th="{{'LABEL_TEXT.UNIT_RCV' | translate}}" ng-if="prod.combo">&nbsp;</td>
+                          <td data-th="{{'LABEL_TEXT.MRP' | translate}}" ng-click="$event.stopPropagation()">
+                            <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_AMOUNT' | translate}}" ng-model="prod.prod_details.mrp" valid-float ng-disabled="!(vm.parseInt(prod.product_qty) - vm.parseInt(prod.received_qty)) > 0" ng-required="prod.prod_details.mrp_chk" name="mrpInput[$index]">
+                          </td>
+                          <td data-th="{{'LABEL_TEXT.EXP_DATE' | translate}}" class="datepicker exp_date" data-th="{{'INPUT_TEXT.EXP_DATE' | translate}}" date-format="yyyy-MM-dd" date-min-limit="{{vm.minDate}}" ng-click ="$event.stopPropagation()">
+                            <input ng-model="prod.date" class="form-control style720kb" type="text" readonly="true" placeholder="{{'INPUT_TEXT.ENTER_DATE' | translate}}" ng-disabled="!(vm.parseInt(prod.product_qty) - vm.parseInt(prod.received_qty)) > 0" ng-required="prod.prod_details.mrp_chk"/>
+                            <a ng-href="" class="remove-date" ng-if="prod.date" ng-click="prod.date = '';">&times;</a>
+                          </td>
+
+                          <td>
+                            <form name="rcvForm">
+                              <input type="text" class="form-control hide" placeholder="{{'INPUT_TEXT.ENTER_AMOUNT' | translate}}" ng-model="prod.prod_details.mrp" valid-float ng-disabled="!(vm.parseInt(prod.product_qty) - vm.parseInt(prod.received_qty)) > 0" ng-required="prod.prod_details.mrp_chk">
+                              <input ng-model="prod.date" class="form-control style720kb hide" type="text" readonly="true" placeholder="{{'INPUT_TEXT.ENTER_DATE' | translate}}" ng-disabled="!(vm.parseInt(prod.product_qty) - vm.parseInt(prod.received_qty)) > 0" ng-required="prod.prod_details.expiry_chk"/>
+                            </form>
+                            <button class="btn btn-primary" ng-disabled="(vm.parseInt(prod.product_qty) < (vm.parseInt(vm.qty[$index]) + vm.parseInt(prod.received_qty)) || !vm.qty[$index] || rcvForm.$invalid)" ng-if="!prod.combo"  ng-click="vm.receiveItem(prod, $index, false); $event.stopPropagation();">{{'INPUT_TEXT.PRINT_SERIAL' | translate}}</button>
+                          </td>
+                          
+                          
+
+                          <td data-th="{{'LABEL_TEXT.SER_PRINT' | translate}}" ng-if="!prod.combo">
+                            <span class="pull-left padding_top_5" ng-if= "prod.received_qty !== 0">{{prod.received_qty ?  prod.received_qty : '-'}}</span>
+                            <span class="pull-left padding_top_5" ng-if= "prod.received_qty === 0">{{prod.received_qty}}</span>
+                            <span class="more_icon_ellipsis pull-right" tabindex="1" ng-if="prod.received_qty > 0" ng-class="{true: 'active', false: 'inactive'}[open[$index]]">
+                              <i class="icon-ellipse" ng-click="open[$index] = !open[$index]"></i>
+                              <a ng-href="" class="menu" ng-click="vm.rePrintItem(prod, $index, false); open[$index] = !open[$index]">{{'INPUT_TEXT.REPRINT' | translate}}</a>
+                            </span>
+                          </td>
+                          <td ng-if="!expand.$index && prod.combo">
+                            <span class="margin_right_5 font_size_11">{{'LABEL_TEXT.RCV_CMP' | translate}}</span><i class="icon-next"></i>
+                          </td>
+
+                        </tr>
+                        
+
+                        <tr class="hiddenRow" ng-if="vm.childProduct[$index]">
+                          <td colspan="8" class="no-padding bg_white_smoke"><div class="accordion-body collapse product_{{$index}} table_accordion in">
+                            <h4 class="txt-semibold ">{{'LABEL_TEXT.CMP_PRODUCT' | translate}}</h4>
+                            <table class="table_custom_1">
+                              <thead>
+                                <tr>
+                                  <th>{{'LABEL_TEXT.PROD_NUM' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.PROD_NAME' | translate}}</th>
+                                  <th width="12%">{{'LABEL_TEXT.UNIT_RCV' | translate}}</th>
+                                  <th></th>
+                                  <th>{{'LABEL_TEXT.SER_PRINT' | translate}}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="childPro in vm.childProduct[$index]" ng-init="childOpen[$index] = false">
+                                  <td>{{childPro.prod_number ? childPro.prod_number : '-' }}</td>
+                                  <td data-th="{{'LABEL_TEXT.PROD_NAME' | translate}}">{{childPro.prod_name ? childPro.prod_name : '-' }}</td>
+                                  <td data-th="{{'LABEL_TEXT.UNIT_RCV' | translate}}">
+
+                                    <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_COUNT' | translate}}" ng-model="vm.qtyChild[$parent.$index][$index]" valid-number ng-disabled="!(vm.parseInt(childPro.product_qty) - vm.parseInt(childPro.received_qty)) > 0">
+                                    <span class="help-block text_11px padding_top_2" ng-show="vm.parseInt(childPro.product_qty) < (vm.parseInt(vm.qtyChild[$parent.$index][$index]) + vm.parseInt(childPro.received_qty)) && (vm.parseInt(childPro.product_qty) - vm.parseInt(childPro.received_qty))">{{'LABEL_TEXT.NOT_MORE_THAN' | translate}}&nbsp;{{vm.parseInt(childPro.product_qty) - vm.parseInt(childPro.received_qty)}}</span>
+                                  </td>
+                                  <td data-th="">
+                                    <button class="btn btn-primary" ng-disabled="(vm.parseInt(childPro.product_qty) < (vm.parseInt(vm.qtyChild[$parent.$index][$index]) + vm.parseInt(childPro.received_qty)) || !vm.qtyChild[$parent.$index][$index] || rcvForm.$invalid)" ng-click="vm.receiveItem(childPro, $index, true, prod, $parent.$index)">{{'INPUT_TEXT.PRINT_SERIAL' | translate}}</button>
+                                  </td>
+                                  <td data-th="{{'LABEL_TEXT.SER_PRINT' | translate}}">
+                                    <span class="pull-left padding_top_5" ng-if= "childPro.received_qty !== 0">{{childPro.received_qty ?  childPro.received_qty : '-'}}</span>
+                                    <span class="pull-left padding_top_5" ng-if= "childPro.received_qty === 0">{{childPro.received_qty}}</span>
+                                    <span class="more_icon_ellipsis pull-right" ng-if="childPro.received_qty > 0" tabindex="1" ng-class="{true: 'active', false: 'inactive'}[childOpen[$index]]">
+                                      <i class="icon-ellipse" ng-click="childOpen[$index] = !childOpen[$index]"></i>
+                                      <a ng-href="" class="menu" ng-click="vm.rePrintItem(childPro, $index, true, $parent.$index); childOpen[$index] = !childOpen[$index]">{{'INPUT_TEXT.REPRINT' | translate}}</a>
+                                    </span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          </td>
+                        </tr>
+                      
+                    </tbody>
+                  </table>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="content-area-footer" ng-if="vm.batchDetails">
+        <div class="pull-right">
+          <div class="btn-group">
+            <button type="submit" class="btn btn-lg btn-border" ng-if="!vm.doneBtn" ng-click="vm.batchDetails = ''; vm.batchNumber = ''">{{'INPUT_TEXT.CANCEL' | translate}}</button>&nbsp;&nbsp;
+          </div>
+          <div class="btn-group">
+            <button type="submit" class="btn btn-lg btn-primary" ng-disabled="!vm.doneBtn" ng-click="vm.refreshPage()">
+            {{'INPUT_TEXT.DONE' | translate}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</section>

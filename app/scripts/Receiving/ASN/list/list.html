@@ -1,3 +1,241 @@
 <section>
-    <div>Hello {{vm.title}}</div>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <div class="content-area">
+      <div class="title_bar">
+        <ol class="breadcrumb">
+          <li class="active">{{'BRD_CM.RCVING.SEARCH_ASN_BATCH' | translate}}</li>
+        </ol>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="alert alert-danger text" ng-show="vm.error">
+            <button ng-click="vm.error = !vm.error" class="close">&times;</button>
+            <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errorMsg | translate}}
+          </div>
+          <div class="alert alert-success text" ng-show="vm.msgSuccess">
+            <button ng-click="vm.msgSuccess = null" class="close">&times;</button>
+            <b>{{'ALERT_MSG.SUCC_HEAD' | translate}}</b>&nbsp;{{vm.msgSuccess | translate}}</span>
+          </div>
+          <div class="alert alert-info text" ng-show="vm.isBatchInfo">
+            <button ng-click="vm.isBatchInfo = !vm.isBatchInfo" class="close">&times;</button>
+            <b>{{'ALERT_MSG.INFO_HEAD' | translate}}</b>&nbsp;{{vm.infoMsg | translate}}&nbsp;{{vm.asnNum}}</span>
+          </div>
+        </div>
+        <section>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              
+              <div class="panel-group custom_accordion" role="tablist" area-multiselectable="true">
+                <div class="panel panel-default">
+                  <div class="panel-heading accordion_heading" role="tab" id="headingOne" data-toggle="collapse" data-parent=".custom_accordion" href="#accordian_collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <h4 class="panel-title heading-title"> <i class="icon-pright"></i><span>{{'LABEL_TEXT.SEARCH_BY' | translate}} </span>
+                      <span class="filter_data hidden">
+                        <span ng-repeat="(key,filter) in vm.filterList" ng-show="vm.asnList && !vm.isObject(filter) && filter!=''">{{$index==0?'|':''}} <i>{{vm.fixStr(key)}}:</i> {{filter?filter:'-'}} | </span>
+                      </span>
+                      <span class="btn_group">
+                      </span>
+                    </h4>
+                  </div>
+
+                  <div id="accordian_collapseOne" class="panel-collapse collapse in js-panel-collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+                    <div class="panel-body">
+                      <ng-form name="asnSearch">
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.TEXT1' | translate}}</label>
+                              <input id="asn" autocomplete="off" ng-model="vm.filterList.sourceNum" type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_COMMA' | translate}}" focus-if>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.STATUS' | translate}}</label>
+                              <select selectpicker id="status" ng-model="vm.filterList.status" data-style="form-control" class="selectpicker form-control">
+                                <option value="any">{{'LABEL_TEXT.CHOOSE' | translate}}</option>
+                                <option ng-repeat="sts in vm.statusList" value="{{sts.key}}">{{sts.status}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group clientAuto">
+                              <label for="client">{{'LABEL_TEXT.CLIENT' | translate}}</label>
+                              <tags-input id="client" on-tag-added="vm.setValue($tag, 'client')" on-tag-removed="vm.removeTag($tag, 'client')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.client" property-key="sk" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'client')"></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isClient">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group supplierAuto">
+                              <label for="supplier">{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</label>
+                              <tags-input id="supplier" on-tag-added="vm.setValue($tag, 'supplier')" on-tag-removed="vm.removeTag($tag, 'supplier')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filterList.supplier" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+                                <auto-complete source="vm.getAutocompleteData($query, 'supplier')" focus-if></auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.isSupplier">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 hide">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.TEXT2' | translate}}</label>
+                              <input id="batch" autocomplete="off" ng-model="vm.filterList.batchNum" type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_COMMA' | translate}}" focus-if>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label for="date">{{'LABEL_TEXT.DATE_RANGE' | translate}}</label>
+                              <div class="date_range">
+                                <input id="date" date-range-picker class="form-control date-picker" placeholder="{{'INPUT_TEXT.DD_MM_YYYY' | translate}}" type="text" ng-model="vm.filterList.date" options="{eventHandlers: {'apply.daterangepicker': vm.fetchDateRange()},format: 'YYYY-MM-DD'}" readonly="true" range="false"/>
+                              <a class="remove-date" ng-if="vm.startDate && vm.endDate" ng-click="vm.removeDateRange()">&times;</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.AVAILABILITY' |translate}}</label>
+                              <label class="radio-inline">
+                                <input type="radio" ng-model="vm.filterList.availability" name="inlineRadioOptions" id="inlineRadio1" value="true"> {{'LABEL_TEXT.EXPIRED' | translate}}
+                              </label>
+                              <label class="radio-inline">
+                                <input type="radio" ng-model="vm.filterList.availability" name="inlineRadioOptions" id="inlineRadio2" value="false"> {{'LABEL_TEXT.ACTIVE' | translate}}
+                              </label>
+                              <label class="radio-inline">
+                                <input type="radio" ng-model="vm.filterList.availability" name="inlineRadioOptions" id="inlineRadio3" value="both"> {{'LABEL_TEXT.BOTH' | translate}}
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-primary center-block" type="submit" ng-click="vm.asnSearchList(1, true)" ng-enter = "false">{{'INPUT_TEXT.SEARCH' | translate}}</button>
+                          </div>
+                        </div>
+                      </ng-form>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+        <section ng-if="vm.asnList">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading padding_bottom_0 clearfix">
+                  <div class="pull-left padding_top_5">
+                    <h3 class="panel-title padding_bottom_15">{{'LABEL_TEXT.SEARCH_RESULT' | translate}}&nbsp;&nbsp;<span class="text-info inline" ng-if="!vm.asnList.length">{{'NO_RECORD' | translate}}</span></h3>
+                  </div>
+                  <div class="visible-xs margin_top_25"></div>
+                  <nav class="pull-right" ng-if="vm.asnList.length">
+                    <button class="btn btn-secondary pull-left margin_right_5" type="button" ng-click="vm.csvDownload();">{{'INPUT_TEXT.DOWNLOAD_CSV' | translate}}</button>
+                    <ul class="pager pull-left">
+                      <li class="text">
+                        <span class="current">{{(vm.startCount+1) + " - "}}{{vm.lastCount}}</span><span>{{'LABEL_TEXT.OF' | translate}}&nbsp;&nbsp;{{vm.totalCount}}&nbsp;{{vm.resultText | translate}}</span>
+                      </li>
+                      <li>
+                        <a ng-class="{anchorDisabled : (vm.pageNo < 2)}" ng-click="vm.asnSearchList(vm.pageNo-1)" ng-model="pre" ng-href="">
+                          <i class="icon-previous"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a ng-class="{anchorDisabled : (vm.lastCount === vm.totalCount)}" ng-click="vm.asnSearchList(vm.pageNo+1)" ng-href="">
+                        <i class="icon-next"></i></a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                <div id="collapse_table">
+                  <table class="table_custom_1">
+                    <thead>
+                      <tr>
+                        <th>{{'LABEL_TEXT.TEXT1' | translate}}</th>
+                        <th>{{'LABEL_TEXT.CLIENT' | translate}}</th>
+                        <th>{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</th>
+                        <th>{{'LABEL_TEXT.STATUS' | translate}}</th>
+                        <th>{{'LABEL_TEXT.EXPIRE_ON' | translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody ng-repeat="asn in vm.asnList" ng-init="expand.$index = false" ng-if="vm.asnList.length">
+                      <tr class="accordion-toggle" data-toggle="collapse" data-parent="#collapse_table" data-target=".product_{{$index}}" ng-click="vm.fetchAsnBatchList(asn.source_number, asn.id, $index); expand.$index = !expand.$index">
+                        <td>
+                          <i class="indicator rotate" ng-class="{true: 'icon-pdown', false: 'icon-pright'}[expand.$index && !vm.isBatchInfo]"></i>
+                          <a ng-href="/asn/{{asn.id}}" target="_blank" ng-click="$event.stopPropagation()">{{asn.source_number ? asn.source_number : '-'}}</a>
+                          <h5 class="inline"><span ng-if="asn.expired" class="label label-danger">{{'STATUS.EXR' | translate}}</span></h5>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.CLIENT' | translate}}">{{asn.client_name ? asn.client_name : '-'}}</td>
+                        <td data-th="{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}">{{asn.supplier_store_name ? asn.supplier_store_name : '-'}}</td>
+                        <td data-th="{{'LABEL_TEXT.STATUS' | translate}}">
+                          <span ng-if="asn.status">{{'STATUS.'+asn.status | translate}}</span>
+                          <span ng-if="!asn.status">&minus;</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.EXPIRE_ON' | translate}}">
+                          <span ng-if="asn.expired_at">{{asn.expired_at | date : 'yyyy-MM-dd'}}&nbsp;{{asn.expired_at | date : 'mediumTime'}}</span>
+                          <span ng-if="!asn.expired_at">&minus;</span>
+                        </td>
+                      </tr>                      
+                      <tr class="hiddenRow"  ng-if="vm.batchList[$index]">
+                        <td colspan="8" class="no-padding bg_white_smoke">
+                          <div class="accordion-body collapse table_accordion product_{{$index}} in">
+                            <h4 class="txt-semibold ">{{'LABEL_TEXT.BATCHES' | translate}}</h4>
+                            <table class="table_custom_1">
+                              <thead>
+                                <tr>
+                                  <th>{{'LABEL_TEXT.TEXT2' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.DOC_NUM' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.STATUS' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.CRE_ON' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.ARR_ON' | translate}}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat = "batch in vm.batchList[$index]">
+                                  <td>
+                                    <a ng-href="/batch/{{batch.number}}" target="_blank">{{batch.number ? batch.number : '-'}}</a>
+                                    <h5 class="inline" ng-if="batch.source === 'UE'"><span class="label label-warning">{{'SOURCE.UE' | translate}}</span></h5>
+                                  </td>
+                                  <td data-th="{{'LABEL_TEXT.DOC_NUM' | translate}}">{{batch.po_invoice_number ? batch.po_invoice_number : '-'}}</td>
+                                  <td data-th="{{'LABEL_TEXT.STATUS' | translate}}">
+                                    <span ng-if="batch.status">{{'BATCH_STATUS.'+ batch.status | translate}}</span>
+                                    <span ng-if="!batch.status">&minus;</span>
+                                  </td>
+                                  <td data-th="{{'LABEL_TEXT.CRE_ON' | translate}}">
+                                    <span ng-if="batch.created_at">{{batch.created_at  | date : 'yyyy-MM-dd'}} &nbsp;{{batch.created_at | date : 'mediumTime'}}</span>
+                                    <span ng-if="!batch.created_at"> - </span>
+                                  </td>
+                                  <td data-th="{{'LABEL_TEXT.ARR_ON' | translate}}">
+                                    <span ng-if="batch.batch_received_at">{{batch.batch_received_at  | date : 'yyyy-MM-dd'}} &nbsp;{{batch.batch_received_at | date : 'mediumTime'}}</span>
+                                    <span ng-if="!batch.batch_received_at"> - </span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
 </section>

@@ -1,0 +1,42 @@
+<section>
+    <nav class="header">
+        <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+    </nav>
+    <div class="content-wrapper">
+        <div class="content-area">
+            <br>
+            <br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                        <div class="card login_wrapper">
+                            <img ng-if="profileData.avatar" class="login_logo" src="{{profileData.avatar}}" alt="Avatar" />
+                            <img ng-if="!profileData.avatar" class="login_logo" src="assets/images/user_logo.png" alt="Avatar" />
+                            <h4 class="godam_title_secondary">
+                                <div class="txt-italic">{{'PAGE_CONTENT.FC_PAGE.HELLO' | translate}}&nbsp;{{(profileData.user_profile.first_name ? profileData.user_profile.first_name : profileData.user_profile.username)}}</div><br>
+                                <span>{{'PAGE_CONTENT.FC_PAGE.CON1' | translate}}</span>
+                            </h4>
+                            <br>
+                            <form class="login-form selectFC" tabindex="-1" name="selectfcForm">
+                                <div class="form-group">
+                                    <div class="alert alert-danger text-left" ng-show="vm.error">
+                                        <button ng-click="vm.error = !vm.error"  class="close">&times;</button>
+                                        <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errMsg | translate}}
+                                    </div>
+                                        <tags-input key-property="sk" class="inputFc" on-tag-added="vm.setValue($tag)" on-tag-removed="vm.removeTag($tag)"  max-tags="1" ng-required="true" add-from-autocomplete-only="true"  ng-model="vm.fcNames" display-property="name" placeholder="{{'LABEL_TEXT.ENTER_CENTER_CODE' | translate}}" autofocus>
+                                            <auto-complete source="vm.getFC($query)"></auto-complete>
+                                        </tags-input>
+                                    <span class="help-block text-left text-error" ng-show="vm.norecord">{{'NO_RECORD' | translate}}</span>
+                                </div>
+                                <div class="form-group m-b-0">
+                                    <button ng-disabled='selectfcForm.$invalid' type="submit" ng-click="vm.selectStation()" id="submit" class="btn btn-primary btn-lg btn-block">{{'LAUNCH' | translate}}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

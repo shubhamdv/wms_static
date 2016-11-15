@@ -1,0 +1,226 @@
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <div class="content-area">
+      <div class="title_bar">
+        <ol class="breadcrumb">
+          <li class="active">{{'BRD_CM.6.1' | translate}}</li>
+        </ol>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="alert alert-danger text" ng-show="vm.error">
+            <button ng-click="vm.error = !vm.error" class="close">&times;</button>
+            <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errorMsg | translate}}
+          </div>
+          <div class="alert alert-success text" ng-show="vm.msgSuccess">
+            <button ng-click="vm.msgSuccess = null" class="close">&times;</button>
+            <b>{{'ALERT_MSG.SUCC_HEAD' | translate}}</b>&nbsp;{{vm.msgSuccess | translate}}</span>
+          </div>
+          <div class="alert alert-info text" ng-show="vm.isComboInfo">
+            <button ng-click="vm.isComboInfo = !vm.isComboInfo" class="close">&times;</button>
+            <b>{{'ALERT_MSG.INFO_HEAD' | translate}}</b>&nbsp;{{vm.infoMsg | translate}}&nbsp;{{vm.prodNum}}</span>
+          </div>
+        </div>
+        <section>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="panel-group custom_accordion" role="tablist" area-multiselectable="true">
+                <div class="panel panel-default">
+                  <div class="panel-heading accordion_heading" role="tab" id="headingOne" data-toggle="collapse" data-parent=".custom_accordion" href="#accordian_collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <h4 class="panel-title heading-title"> <i class="icon-pright"></i><span>{{'LABEL_TEXT.SEARCH_BY' | translate}} </span>
+                      <span class="filter_data hidden">
+                        <span ng-repeat="(key,filter) in vm.filterList" ng-show="vm.asnList && !vm.isObject(filter) && filter!=''">{{$index==0?'|':''}} <i>{{vm.fixStr(key)}}:</i> {{filter?filter:'-'}} | </span>
+                      </span>
+                      <span class="btn_group">
+                      </span>
+                    </h4>
+                  </div>
+                  <div id="accordian_collapseOne" class="panel-collapse collapse in js-panel-collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+                    <div class="panel-body">
+                      <form name="productSearch">
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.PROD_NUM' | translate}}</label>
+                              <input id="asn" autocomplete="off" ng-model="vm.filter.prodNum" type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_COMMA' | translate}}" focus-if>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group productAuto">
+                              <label>{{'LABEL_TEXT.PROD_NAME' | translate}}</label>
+                              <tags-input id="prod" on-tag-added="vm.setValue($tag, 'prod')" on-tag-removed="vm.removeTag($tag, 'prod')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filter.prod" key-property="sk" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+                              <auto-complete source="vm.getAutocompleteData($query, 'prod')">
+                              </auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.norecordProd">{{'NO_RECORD' | translate}}</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group clientAuto">
+                              <label for="client">{{'LABEL_TEXT.CLIENT' | translate}}</label>
+                              <tags-input id="client" on-tag-added="vm.setValue($tag, 'client')" on-tag-removed="vm.removeTag($tag, 'client')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filter.client" key-property="sk" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+                              <auto-complete source="vm.getAutocompleteData($query, 'client')">
+                              </auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.norecordClient">{{'NO_RECORD' | translate}}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group supplierAuto">
+                              <label for="supplier">{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</label>
+                              <tags-input id="supplier" on-tag-added="vm.setValue($tag, 'supplier')" on-tag-removed="vm.removeTag($tag, 'supplier')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.filter.supplier" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+                              <auto-complete source="vm.getAutocompleteData($query, 'supplier')">
+                              </auto-complete>
+                              </tags-input>
+                              <span class="help-block text-left text-error" ng-show="vm.norecordSupplier">{{'NO_RECORD' | translate}}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.AVAIL_TEXT' |translate}}</label>
+                              <label class="radio-inline">
+                                <input type="radio" ng-model="vm.filter.avail" name="inlineRadioOptions" id="inlineRadio2" value="true"> {{'LABEL_TEXT.ACTIVE' | translate}}
+                              </label>
+                              <label class="radio-inline">
+                                <input type="radio" ng-model="vm.filter.avail" name="inlineRadioOptions" id="inlineRadio1" value="false"> {{'LABEL_TEXT.INACTIVE' | translate}}
+                              </label>
+                              <label class="radio-inline">
+                                <input type="radio" ng-model="vm.filter.avail" name="inlineRadioOptions" id="inlineRadio3" value="all"> {{'LABEL_TEXT.BOTH' | translate}}
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <button id="submit" class="btn btn-primary center-block" ng-disabled="!vm.filter.prodNum && !vm.filter.prod && !vm.filter.client && !vm.filter.supplier && !vm.filter.avail" type="button"  ng-click="vm.productSearchList(1, true)" ng-enter = "{{!vm.filter.prodNum && !vm.filter.prod && !vm.filter.client && !vm.filter.supplier && !vm.filter.avail}}">{{'INPUT_TEXT.SEARCH' | translate}}</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section ng-if="vm.data">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading padding_bottom_0 clearfix">
+                  <div class="pull-left padding_top_5">
+                    <h3 class="panel-title padding_bottom_15">{{'LABEL_TEXT.SEARCH_RESULT' | translate}}&nbsp;&nbsp;<span class="text-info inline" ng-if="!vm.finalList.length">{{'NO_RECORD' | translate}}</span></h3>
+                  </div>
+                  <div class="visible-xs margin_top_25"></div>
+                  <nav class="pull-right" ng-if="vm.finalList.length">
+                    <button class="btn btn-secondary pull-left margin_right_5" ng-click="vm.csvDownload()" type="button">{{'INPUT_TEXT.DOWNLOAD_CSV' | translate}}</button>
+                    <ul class="pager pull-left">
+                      <li class="text"> <span class="current">{{(vm.startCount+1) + " - "}}{{vm.lastCount}}</span><span>{{'LABEL_TEXT.OF' | translate}}&nbsp;{{vm.totalCount}} {{vm.resultText | translate}}</span> </li>
+                      <li>
+                        <a ng-class="{anchorDisabled : (vm.pageNo < 2)}" ng-click="vm.productSearchList(vm.pageNo-1)" ng-model="pre" ng-href="">
+                          <i class="icon-previous"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a ng-class="{anchorDisabled : (vm.lastCount === vm.totalCount)}" ng-click="vm.productSearchList(vm.pageNo+1)" ng-href="">
+                        <i class="icon-next"></i></a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                <div id="collapse_table">
+                  <table class="table_custom_1">
+                    <thead>
+                      <tr>
+                        <th>{{'LABEL_TEXT.PROD_NUM' | translate}}</th>
+                        <th>{{'LABEL_TEXT.PROD_NAME' | translate}}</th>
+                        <th>{{'LABEL_TEXT.CLIENT' | translate}}</th>
+                        <th>{{'LABEL_TEXT.AVIL_ORDER' | translate}}</th>
+                        <th>{{'LABEL_TEXT.ON_HOLD' | translate}}</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody ng-repeat="row in vm.finalList" ng-init="expand.$index = false" ng-if="vm.finalList.length">
+                      <tr class="accordion-toggle" ng-click="vm.componentProdList(row.sk, $index, row.number, row.combo); expand.$index = !expand.$index" data-toggle="collapse" data-parent="#collapse_table" data-target=".product_{{$index}}">
+                        <td data-th="{{'LABEL_TEXT.PROD_NUM' | translate}}"><i class="indicator rotate" ng-if="row.combo" ng-class="{true: 'icon-pdown', false: 'icon-pright'}[expand.$index && !vm.isComboInfo]"></i>
+                          <a ng-href="/product/{{row.sk}}" target="_blank" ng-click ="$event.stopPropagation()">{{row.number}}</a>
+                          <h5 ng-if="!row.active" class="inline">
+                          <span class="label label-danger">{{'LABEL_TEXT.INACTIVE' | translate}}</span>
+                          </h5>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.PROD_NAME' | translate}}">{{row.name ? row.name : ' - '}}</td>
+                        <td data-th="{{'LABEL_TEXT.CLIENT' | translate}}">{{row.client_name ? row.client_name : ' - '}}</td>
+                        <td data-th="{{'LABEL_TEXT.AVIL_ORDER' | translate}}">
+                          <span ng-if="vm.parseInt(row.inventory.available) !== 0">{{vm.parseInt(row.inventory.available) ? vm.parseInt(row.inventory.available) : '-'}}</span>
+                          <span ng-if="vm.parseInt(row.inventory.available) === 0">{{vm.parseInt(row.inventory.available)}}</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.ON_HOLD' | translate}}">
+                          <span ng-if="vm.parseInt(row.inventory.held) !== 0">{{vm.parseInt(row.inventory.held) ? vm.parseInt(row.inventory.held) : ' - '}}</span>
+                          <span ng-if="vm.parseInt(row.inventory.held) === 0">{{vm.parseInt(row.inventory.held)}}</span>
+                        </td>
+                        <td><i class="fa fa-ellipsis-h hide"></i></td>
+                      </tr>
+                      <tr class="hiddenRow" ng-if="vm.childProduct[$index].length">
+                        <td colspan="8" class="no-padding bg_white_smoke">
+                          <div class="accordion-body collapse product_{{$index}} table_accordion in">
+                            <h4 class="txt-semibold ">{{'LABEL_TEXT.CMP_PRODUCT' | translate}}</h4>
+                            <table class="table_custom_1">
+                              <thead>
+                                <tr>
+                                  <th>{{'LABEL_TEXT.PROD_NUM' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.PROD_NAME' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.EACH_SET' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.AVIL_ORDER' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.ON_HOLD' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.EXTRA' | translate}}</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat = "child in vm.childProduct[$index]">
+                                  <td><a ng-href="/product/{{row.sk}}/{{child.sk}}" target="_blank">{{child.number ? child.number : '-'}}</a></td>
+                                  <td data-th="{{'LABEL_TEXT.PROD_NAME' | translate}}">{{child.name ? child.name : '-'}}</td>
+                                  <td data-th="{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}">{{child.supplier_store ? child.supplier_store : '-'}}</td>
+                                  <td data-th="{{'LABEL_TEXT.EACH_SET' | translate}}" ng-if="vm.parseInt(child.quantity) !== 0">{{vm.parseInt(child.quantity) ? vm.parseInt(child.quantity) : '-'}}</td>
+                                  <td data-th="{{'LABEL_TEXT.EACH_SET' | translate}}" ng-if="vm.parseInt(child.quantity) === 0">{{vm.parseInt(child.quantity)}}</td>
+
+                                  <td data-th="{{'LABEL_TEXT.AVIL_ORDER' | translate}}" ng-if="vm.parseInt(child.inventory.available) !== 0">{{vm.parseInt(child.inventory.available) ? vm.parseInt(child.inventory.available) : '-'}}</td>
+                                  <td data-th="{{'LABEL_TEXT.AVIL_ORDER' | translate}}" ng-if="vm.parseInt(child.inventory.available) === 0">{{vm.parseInt(child.inventory.available)}}</td>
+                                  <td data-th="{{'LABEL_TEXT.ON_HOLD' | translate}}" ng-if="vm.parseInt(child.inventory.held) !== 0">{{vm.parseInt(child.inventory.held) ? vm.parseInt(child.inventory.held) : '-'}}</td>
+                                  <td data-th="{{'LABEL_TEXT.ON_HOLD' | translate}}" ng-if="vm.parseInt(child.inventory.held) === 0">{{vm.parseInt(child.inventory.held)}}</td>
+                                  <td data-th="{{'LABEL_TEXT.EXTRA' | translate}}">{{vm.parseInt(child.inventory.available) - vm.parseInt(child.quantity) * vm.parseInt(row.inventory.available)}}</td>
+                                  <td><i class="fa fa-ellipsis-h hide"></i></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</div>
+</div>
+</section>

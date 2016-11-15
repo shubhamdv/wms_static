@@ -8,7 +8,7 @@
     function router($routeProvider) {
         $routeProvider
             .when('/:lang/password/reset/:token', {
-                templateUrl: 'app/Authentication/password/reset/reset.html',
+                templateUrl: 'scripts/Authentication/password/reset/reset.html',
                 controller: 'ResetPasswordCtrl',
                 controllerAs: 'vm',
                 title: 'RESET_PASSWORD_PAGE.PAGE_TITLE'

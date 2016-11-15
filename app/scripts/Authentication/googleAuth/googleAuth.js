@@ -8,7 +8,7 @@
 
     function router($routeProvider) {
         $routeProvider.when('/account/google-oauth2', {
-            templateUrl: 'app/Authentication/googleAuth/googleAuth.html',
+            templateUrl: 'scripts/Authentication/googleAuth/googleAuth.html',
             controller: 'GoogleAuthCtrl',
             controllerAs: 'googleAuth',
             title: 'HOME_PAGE.PAGE_TITLE',

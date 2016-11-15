@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-md-12">
+    <ul class="breadcrumb not_breadcrumb">
+      <li ng-repeat="(key, data) in vm.createData" ng-if="data && data!=''">{{vm.fixStr(key)}}: <span class="value">{{data[0].name||data[0].title||'ACTIVITY_LIST.' + data | translate}}<span></li>
+    </ul>
+  </div>
+</div>
+<br>
+<div class="panel panel-default ">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+          {{'LABEL_TEXT.ACTIONS' | translate}}
+      </h4>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="form-group">
+          <label class="text-left">{{'LABEL_TEXT.SET' | translate}} {{'LABEL_TEXT.PRIORITY' | translate}}</label>
+          <input type="text" class="form-control" placeholder="{{'LABEL_TEXT.ENTER' | translate}} {{'LABEL_TEXT.PRIORITY' | translate}}" ng-model="vm.ruleData.priority">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="form-group">
+          <label class="text-left">{{'LABEL_TEXT.PACK_BOX_NUMBER' | translate}}</label>
+          <input type="text" class="form-control" placeholder="{{'LABEL_TEXT.ENTER' | translate}} {{'LABEL_TEXT.PACK_BOX_NUMBER' | translate}}" ng-model="vm.ruleData.packBoxNumber">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="form-group">
+          <label class="text-left">{{'LABEL_TEXT.ROAD_FORM' | translate}}</label>
+          <div class="switch">
+            <label>
+              <span class="margin_left_15">{{'NO' | translate}}</span> <input type="checkbox" ng-model="vm.ruleData.roadform" ng-true-value="'yes'" ng-false-value="'no'">
+              <span class="lever margin_left_5"></span> {{'YES' | translate}}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <label class="text-left margin_bottom_10">{{'LABEL_TEXT.INSTRUCTIONS' | translate}}</label>
+        <div class="panel panel-default height_500">
+          <div class="panel-body">
+            <div ng-repeat="instruction in vm.instructions" class="clearfix">
+              <div class="checkbox text-left">
+                <label>
+                  <input type="checkbox" ng-model="vm.ruleData.instructions[$index]['selected']">{{instruction.text|translate}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <label class="text-left margin_bottom_10">{{'LABEL_TEXT.REASONS'|translate}}</label>
+        <div class="panel panel-default height_500">
+          <div class="panel-body">
+            <div ng-repeat="reason in vm.reasons" class="clearfix">
+              <div class="checkbox text-left">
+                <label>
+                  <input type="checkbox" ng-model="vm.ruleData.reasons[$index]['selected']">{{reason.text|translate}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <label class="text-left margin_bottom_10">{{'LABEL_TEXT.FIELDS_TO_CAPTURE'|translate}}</label>
+        <div class="panel panel-default height_500">
+          <div class="panel-body hideOverflow">
+            <label><span class="pull-left text-muted">{{'LABEL_TEXT.FIELDS'|translate}}</span> <span class="pull-right text-muted">{{'LABEL_TEXT.IS'|translate}} {{'LABEL_TEXT.MANDATORY'|translate}}</span> </label>
+            <br><br>
+            <div ng-repeat="attribute in vm.attributesList" class="clearfix">
+              <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+                  <div class="checkbox text-left">
+                    <label>
+                      <input type="checkbox" ng-model="vm.ruleData.attributes[$index]['optional']" ng-change="!vm.ruleData.attributes[$index]['optional']?vm.ruleData.attributes[$index]['mandatory']=false:''">{{attribute.name}}
+                    </label>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                  <div class="switch text-right">
+                    <label>
+                      <input type="checkbox" ng-disabled="!vm.ruleData.attributes[$index]['optional']" ng-model="vm.ruleData.attributes[$index]['mandatory']">
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="form-group text-right">
+  <button class="btn btn-secondary" ng-click="vm.currentStep=3;vm.step_process(4, 3, 'desc');"> {{'BTN_PREV'|translate}}</button>
+  <button class="btn btn-primary" ng-click="vm.createRuleDataPreview();"> {{'BTN_SAVE'|translate}} & {{'BTN_DONE'|translate}}</button>
+</div>

@@ -20,7 +20,9 @@
 
 
         function activate() {
+            console.log("dsfdsfsdf");
             if( $cookies.get('isLogged') === 'false' || !$cookies.get('isLogged') ){
+                console.log("lkjhgfghjkl");
                 sessionManagement.reNewSession();
             }
         }

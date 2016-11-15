@@ -24,8 +24,10 @@
             // return http promise object attempting authentication
             return $http({
                 'url': settings.API_URI.LOGIN,
+                // 'url': settings.API_URI.LOGIN,
                 'method': 'POST',
                 'data': data,
+                'headers' : { 'Content-Type': 'application/json' }
             });
         }
     }

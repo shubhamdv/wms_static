@@ -8,7 +8,7 @@
     function router($routeProvider) {
         $routeProvider
             .when('/password/change', {
-                templateUrl: 'app/Authentication/password/change/change.html',
+                templateUrl: 'scripts/Authentication/password/change/change.html',
                 controller: 'ChangePasswordCtrl',
                 controllerAs: 'vm',
                 title: 'CHANGE_PASSWORD_PAGE.PAGE_TITLE',

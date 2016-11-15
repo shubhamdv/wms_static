@@ -1,0 +1,88 @@
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <print-changelogitem />
+    <div class="content-area" id="print-div">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ol class="breadcrumb">
+              <li>
+                <a ng-href="/product/item/">{{'BRD_CM.5.1' | translate}}</a>
+              </li>
+              <li>
+                <a ng-href="/product/item/{{serialNum}}">{{'BRD_CM.5.2' | translate}}</a>
+              </li>
+              <li class="active">{{'BRD_CM.5.3' | translate}}</li>
+            </ol>
+          </div>
+        </div>
+        <div class="row">
+          <h4 class="page_title">{{'BRD_CM.5.3' | translate}}</h4>
+        </div>
+        <div class="row">
+          <div class="alert alert-danger text" ng-show="error">
+            <button ng-click="error = !error" class="close">&times;</button>
+            {{errorMsg | translate}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p class="page_heading">Item - {{serialNum ? serialNum : 'Serial Number'}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <table class="table_custom_1">
+              <thead>
+                <tr>
+                  <th>{{'LABEL_TEXT.STATUS' | translate}}</th>
+                  <th>{{'LABEL_TEXT.ACTIVITY' | translate}}</th>
+                  <th>{{'LABEL_TEXT.LOCATION' | translate}}</th>
+                  <th>{{'LABEL_TEXT.TIMES_TAMP' | translate}}</th>
+                  <th>{{'LABEL_TEXT.USER_NAME' | translate}}</th>
+                  <th>{{'LABEL_TEXT.TEXT2' | translate}}</th>
+                  <th>{{'LABEL_TEXT.ORDER_LINE' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="row in data">
+                  <td data-th="{{'LABEL_TEXT.STATUS' | translate}}">{{row.status ? row.status : 'None'}}</td>
+                  <td data-th="{{'LABEL_TEXT.ACTIVITY' | translate}}">{{row.activity ? row.activity : 'None'}}</td>
+                  <td data-th="{{'LABEL_TEXT.LOCATION' | translate}}">{{row.location ? row.location : 'None'}}</td>
+                  <td data-th="{{'LABEL_TEXT.TIMES_TAMP' | translate}}">{{row.timestamp ? row.timestamp : '-' | date : 'yyyy-MM-dd'}}</td>
+                  <td data-th="{'LABEL_TEXT.USER_NAME' | translate}}">{{row.user_name ? row.user_name : '-'}}</td>
+                  <td data-th="{{'LABEL_TEXT.TEXT2' | translate}}">{{row.number ? row.number : '-'}}</td>
+                  <td data-th="{{'LABEL_TEXT.ORDER_LINE' | translate}}">{{row.order_line ? row.order_line : '-'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+      <!-- ASN List show div End-->
+      <br>
+      <br>
+      <br>
+    </div>
+
+    <div class="content-area-footer hidden-print">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="pull-left">
+            <div class="btn-group">
+              <button class="btn  btn-default btn_icon" ng-click="printPage()"><i class="icon-printer"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

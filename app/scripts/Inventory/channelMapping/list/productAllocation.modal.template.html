@@ -1,0 +1,50 @@
+<div>
+    <div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="$dismiss()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{'LABEL_TEXT.EDIT_PROD_ALLOC' | translate}}</h4>
+            </div>
+            <div class="modal-body ">
+                <div class="row details_row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <dl>
+                            <dt>{{'LABEL_TEXT.PROD' | translate}}</dt>
+                            <dd>{{parsedRow.product_number}}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <dl>
+                            <dt>{{'LABEL_TEXT.CHANNEL' | translate}}</dt>
+                            <dd>{{parsedRow.channel}}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <form>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <label>{{'LABEL_TEXT.CHOOSE_UNIT' | translate}}</label>
+                                <select selectpicker class="selectpicker form-control dropdown_1" ng-model="selectedUnit" ng-change="unitChange()" data-style="form-control">
+                                    <option>{{'INPUT_TEXT.PERCENTAGE' | translate}}</option>
+                                    <option>{{'INPUT_TEXT.QTY_PCS' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <label>{{'LABEL_TEXT.SET_VAL' | translate}}</label>
+                                <input type="text" class="form-control" ng-show="selectedUnit == 'Percentage (%)'" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}" ng-model="parsedRow.allocation_number" valid-float>
+                                <input type="text" class="form-control" ng-show="selectedUnit == 'Quantity (pcs)'" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}" ng-model="parsedRow.allocation_number" valid-number>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" ng-click="$dismiss()">{{'INPUT_TEXT.CANCEL' | translate}}</button>
+                <button type="button" class="btn btn-primary  pull-right pull-xs-left" ng-disabled="(!selectedUnit || !parsedRow.allocation_number)" ng-click="$close({allocation_operation: selectedUnit, allocation_number: parsedRow.allocation_number})">{{'INPUT_TEXT.SAVE_CHANGE' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>

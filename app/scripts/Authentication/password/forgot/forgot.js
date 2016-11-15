@@ -8,7 +8,7 @@
     function router($routeProvider) {
         $routeProvider
             .when('/password/recovery', {
-                templateUrl: 'app/Authentication/password/forgot/forgot.html',
+                templateUrl: 'scripts/Authentication/password/forgot/forgot.html',
                 controller: 'ForgotPasswordCtrl',
                 controllerAs: 'vm',
                 title: 'PAGE_TITLE.F_PASS_PAGE.FORGOT_PASSWORD',

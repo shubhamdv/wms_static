@@ -1,0 +1,156 @@
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div class="grey_background"></div>
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <div class="content-area">
+      <div class="title_bar">
+        <ol class="breadcrumb">
+          <li class="active">{{'BRD_CM.RCVING.RCV_SHIP' | translate}}</li>
+        </ol>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="alert alert-danger text-left" ng-show="vm.error">
+            <button ng-click="vm.error = !vm.error" class="close">&times;</button>
+            <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errorMsg | translate}}
+          </div>
+          <div class="alert alert-success text-left" ng-show="vm.success">
+            <button ng-click="vm.success = !vm.success" class="close">&times;</button>
+            <b>{{'ALERT_MSG.SUCC_HEAD' | translate}}</b>{{'SUCC_MSG.BATCH' | translate}}&nbsp;<a ng-href="batch/{{vm.batchAccepted}}" target="_blank">{{vm.batchAccepted}}</a>&nbsp;{{'SUCC_MSG.IN_ASN' | translate}}&nbsp;<a ng-href="asn/{{vm.agn_id}}" target="_blank">{{vm.source_number}}</a>&nbsp;{{'SUCC_MSG.MSG2' | translate}}
+          </div>
+        </div>
+        <section>
+          <div class="row long_search_input_container">
+            <div class="col-lg-5 col-md-7 col-sm-9 col-xs-8">
+              <div class="form-group">
+                <label class="txt-semibold">{{'LABEL_TEXT.SOURCE_NUM_SHIP' | translate}}</label>
+                <input type="text" ng-model="vm.asnNum" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}" focus-if>
+                <p>{{'PAGE_CONTENT.RCV.SHIPMENT.CON1' | translate}}</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-xs-3 padding_left_0">
+              <button type="submit" class="btn btn-primary" ng-click="vm.fetchBatchList(1, true)" ng-disabled="!vm.asnNum" ng-enter = "{{!vm.asnNum}}" >{{'INPUT_TEXT.SEARCH' | translate}}</button>
+            </div>
+          </div>
+        </section>
+        <section ng-if="vm.batchList">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                  <div class="pull-left">
+                    <h3 class="panel-title">{{'PAGE_CONTENT.RCV.SHIPMENT.CON2' | translate}}<span ng-if= "!vm.batchList.length">&nbsp;&nbsp;&#58;&nbsp;</span><span class="text-info pull-right" ng-if= "!vm.batchList.length">{{'NO_RECORD' | translate}}</span></h3>
+                  </div>
+                  <nav class="pull-right hide" ng-if="vm.batchList.length && vm.isNav">
+                    <ul class="pager pull-left">
+                      <li class="text">
+                        <span class="current">{{(vm.startCount+1) + " - "}}{{vm.lastCount}}</span><span>{{'LABEL_TEXT.OF' | translate}}&nbsp;&nbsp;{{vm.totalCount}}&nbsp;{{vm.resultText | translate}}</span>
+                      </li>
+                      <li>
+                        <a ng-class="{anchorDisabled : (vm.pageNo < 2)}" ng-click="vm.fetchBatchList(vm.pageNo-1)" ng-model="pre" ng-href="">
+                          <i class="icon-previous"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a ng-class="{anchorDisabled : (vm.lastCount === vm.totalCount)}" ng-click="vm.fetchBatchList(vm.pageNo+1)" ng-href="">
+                        <i class="icon-next"></i></a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                <div class="panel-body" ng-if= "vm.batchList.length">
+                  <div class="card_1" ng-repeat="batch in vm.batchList" ng-init="isFinish[$index] = false; open[$index] = false;" ng-if="!vm.isHideAll[$index]">
+                    <div class="card-block">
+                      <h4 class="card_title">{{batch.source_number ? batch.source_number : '-'}}
+                      <span class="label label-default text-uppercase" ng-if="batch.status">{{'STATUS.'+ batch.status | translate}}</span>
+                      <span class="label label-default text-uppercase" ng-if="!batch.status">&minus;</span>
+                      </h4>
+                      <div class="card-text">
+                        <div class="row">
+                          <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+                            <dl>
+                              <dt>{{'LABEL_TEXT.CLIENT' | translate}}</dt>
+                              <dd>{{batch.client_name ? batch.client_name : '-'}}</dd>
+                            </dl>
+                          </div>
+                          <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+                            <dl>
+                              <dt>{{'LABEL_TEXT.CLIENT_STORE' | translate}}</dt>
+                              <dd>{{batch.client_store_name ? batch.client_store_name : '-'}}</dd>
+                            </dl>
+                          </div>
+                          <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                            <dl>
+                              <dt>{{'LABEL_TEXT.SUPPLIER' | translate}}</dt>
+                              <dd>{{batch.supplier_name ? batch.supplier_name : '-'}}</dd>
+                            </dl>
+                          </div>
+                          <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                            <dl>
+                              <dt>{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</dt>
+                              <dd>{{batch.supplier_store_name ? batch.supplier_store_name : '-'}}</dd>
+                            </dl>
+                          </div>
+                          <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6" ng-if="!isFinish[$index]">
+                            <button class="btn btn-secondary" ng-click="isFinish[$index] = true; vm.showHideRow($index, false);">{{'INPUT_TEXT.RCV' | translate}}</button>
+                          </div>
+                        </div>
+                        <hr class="custom_hr" ng-if="isFinish[$index]">
+                        <div class="row" ng-if="isFinish[$index]">
+                          <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
+                            <div class="form-group">
+                              <label>{{'LABEL_TEXT.NO_OF_BOX' | translate}}</label>
+                              <input type="text" name="noOfBox" ng-model="vm.noOfBox[$index]" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}" class="form-control" valid-number>
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 form_btn">
+                            <div class="form-group"> <br>
+                              <button class="btn btn-primary" ng-disabled="!vm.noOfBox[$index]" type="submit" ng-click="vm.printBarCode(batch, $index);">{{'INPUT_TEXT.PRINT_BATCH' | translate}}</button>
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-4 col-sm-5 col-xs-6">
+                            <dl class="pull-left">
+                              <dt>{{'LABEL_TEXT.BOX_RCV' | translate}}</dt>
+                              <dd>{{vm.printBatch[$index] ? vm.printBatch[$index] : 0}}</dd>
+                            </dl>
+                            <span class="more_icon_ellipsis pull-right custom_ellipse" tabindex="1" ng-class="{true: 'active', false: 'inactive'}[open[$index]]" ng-if="vm.printBatch[$index]">
+                              <i class="icon-ellipse" ng-click="open[$index] = !open[$index]"></i>
+                              <a ng-href="" class="menu" ng-click="vm.rePrintBarCode(batch, $index); open[$index] = !open[$index]">{{'INPUT_TEXT.REPRINT_BARCODE' | translate}}</a>
+                            </span>
+                          </div>
+                          <div class="col-lg-5 col-md-8 col-sm-12 col-xs-12 long_search_input_container">
+                            <div class="form-group">
+                              <label class="txt-regular font_size_10">{{'LABEL_TEXT.ADDITIONAL_DOC_NUM' | translate}}</label>
+                              <input type="text" placeholder="{{'INPUT_TEXT.ENTER_NUM' | translate}}" class="form-control" ng-model="vm.docNum[$index]">
+                              <p>{{'PAGE_CONTENT.RCV.SHIPMENT.CON3' | translate}}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <hr class="custom_hr" ng-if="isFinish[$index]">
+                        <div class="row" ng-if="isFinish[$index]">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                            <button type="submit" class="btn btn-border" ng-click="isFinish[$index] = false; vm.showHideRow($index, true);" ng-disabled="vm.printBatch[$index]">{{'INPUT_TEXT.CANCEL' | translate}}</button>
+                            <button type="submit" class="btn btn-primary" ng-disabled="!vm.printBatch[$index]" ng-click="vm.acceptShipment(batch, $index)">{{'INPUT_TEXT.FINISH' | translate}}</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</section>

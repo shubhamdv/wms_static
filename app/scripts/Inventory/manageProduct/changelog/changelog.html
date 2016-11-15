@@ -1,0 +1,84 @@
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <print-changelogproduct />
+    <div class="content-area" id="print-div">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ol class="breadcrumb">
+              <li>
+                <a ng-href="/product/">{{'BRD_CM.6.1' | translate}}</a>
+              </li>
+              <li>
+                <a ng-href="/product/{{prodId}}">{{'BRD_CM.6.2' | translate}}</a>
+              </li>
+              <li class="active">{{'BRD_CM.6.3' | translate}}</li>
+            </ol>
+          </div>
+        </div>
+        <div class="row">
+          <h4 class="page_title">{{'BRD_CM.6.3' | translate}}</h4>
+        </div>
+        <div class="row">
+          <div class="alert alert-danger text" ng-show="error">
+            <button ng-click="error = !error" class="close">&times;</button>
+            {{errorMsg | translate}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p class="page_heading">{{'LABEL_TEXT.PROD' | translate}} - {{prodNumber ? prodNumber : 'LABEL_TEXT.PROD' | translate}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <table class="table_custom_1">
+              <thead>
+                <tr>
+                  <th>{{'LABEL_TEXT.CHANGES' | translate}}</th>
+                  <th>{{'LABEL_TEXT.COMMENTS' | translate}}</th>
+                  <th>{{'LABEL_TEXT.REVIEWED_BY' | translate}}</th>
+                  <th>{{'LABEL_TEXT.ACTION' | translate}}</th>
+                  <th>{{'LABEL_TEXT.REVIEWED_AT' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="row in data">
+                  <td>{{row.changes ? row.changes : '-'}}</td>
+                  <td data-th="{{'LABEL_TEXT.COMMENTS' | translate}}">{{row.comments ? row.comments : '-'}}</td>
+                  <td data-th="{{'LABEL_TEXT.REVIEWED_BY' | translate}}">{{row.reviewed_by ? row.reviewed_by : '-'}}</td>
+                  <td data-th="{{'LABEL_TEXT.ACTION' | translate}}">{{row.action ? row.action : '-'}}</td>
+                  <td data-th="{{'LABEL_TEXT.REVIEWED_AT' | translate}}">{{row.reviewed_at ? row.reviewed_at : '-' | date : 'yyyy-MM-dd'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+      <!-- ASN List show div End-->
+      <br>
+      <br>
+      <br>
+    </div>
+
+    <div class="content-area-footer hidden-print">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="pull-left">
+            <div class="btn-group">
+              <button class="btn  btn-default btn_icon" ng-click="printPage()"><i class="icon-printer"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,281 @@
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <div class="content-area" ng-init="vm.fetchBatchDetails()">
+      <div class="title_bar">
+        <ol class="breadcrumb">
+          <li><a ng-href="/batches">{{'BRD_CM.RCVING.BATCH' | translate}}</a></li>
+          <li class="active">{{'BRD_CM.RCVING.BATCH_DETAILS' | translate}}</li>
+        </ol>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="alert alert-danger text hidden-print" ng-show="vm.error">
+            <button ng-click="vm.error = !vm.error" class="close">&times;</button>
+            <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errorMsg | translate}}
+          </div>
+          <div class="alert alert-success text" ng-show="vm.success">
+            <button ng-click="vm.success = !vm.success" class="close">&times;</button>
+            <b>{{'ALERT_MSG.SUCC_HEAD' | translate}}</b>&nbsp;<span ng-show="!vm.finishMsg">{{vm.successMsg | translate}}</span><span ng-show="vm.finishMsg">{{vm.batchDetail.number}}&nbsp;{{vm.finishMsg | translate}}</span>
+          </div>
+          <div class="alert alert-info text" ng-show="vm.isComboInfo">
+            <button ng-click="vm.isComboInfo = !vm.isComboInfo" class="close">&times;</button>
+            <b>{{'ALERT_MSG.INFO_HEAD' | translate}}</b>&nbsp;{{vm.infoMsg | translate}}&nbsp;{{vm.prodNum}}</span>
+          </div>
+        </div>
+        <section>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+              <div class="panel panel-default top_left_info">
+                <div class="panel-heading">
+                  <h3 class="panel-title">{{'LABEL_TEXT.BATCH_INFO' | translate}}</h3>
+                </div>
+                <div class="panel-body padding_bottom_20">
+                  <div class="head_info">
+                    <h4 class="txt-semibold margin_top_0 inline">{{vm.batchDetail.number}}</h4>
+                    <h5 class="inline" ng-if="vm.batchDetail.source === 'UE'"><span class="label label-warning text-uppercase">{{'SOURCE.UE' | translate}}</span></h5>
+                  </div>
+                  <table class="table_custom_1 table_custom_2">
+                    <tbody>
+                      <tr>
+                        <td>{{'LABEL_TEXT.STATUS' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.STATUS' | translate}}">
+                          <span ng-if="vm.batchDetail.status">{{'BATCH_STATUS.'+ vm.batchDetail.status | translate}}</span>
+                          <span ng-if="!vm.batchDetail.status">&minus;</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.TEXT1' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.TEXT1' | translate}}">
+                          <a ng-href="/asn/{{vm.batchDetail.agn}}" target="_blank">{{vm.batchDetail.source_number ? vm.batchDetail.source_number :' - '}}</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.CLIENT_STORE' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.CLIENT_STORE' | translate}}">{{vm.batchDetail.client_store_name ? vm.batchDetail.client_store_name :' - '}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.SUPPLIER' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.SUPPLIER' | translate}}">{{vm.batchDetail.supplier_name ? vm.batchDetail.supplier_name : ' - '}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}">{{vm.batchDetail.supplier_store_name ? vm.batchDetail.supplier_store_name : ' - '}}</td>
+                      </tr>
+                      <tr>
+                        <td>{{'LABEL_TEXT.DOC_NUM' | translate}}</td>
+                        <td data-th="{{'LABEL_TEXT.DOC_NUM' | translate}}">{{vm.manage_lookup.vendor ? vm.manage_lookup.vendor : ' - '}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 hide">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Handling history</h3>
+                </div>
+                <div class="table-wrapper">
+                  <div class="table-scroll">
+                    <table class="table_custom_1">
+                      <thead>
+                        <th>Status</th>
+                        <th>Date & Time</th>
+                        <th>User</th>
+                      </thead>
+                      <div>
+                        <tbody>
+                          <tr>
+                            <td>In progress</td>
+                            <td data-th="Date & Time">DD-MM-YYYY at hh:mm:ss</td>
+                            <td data-th="User">tarun.arora</td>
+                          </tr>
+                          <tr>
+                            <td>Created</td>
+                            <td data-th="Date & Time">DD-MM-YYYY at hh:mm:ss</td>
+                            <td data-th="User">tarun.arora</td>
+                          </tr>
+                          <tr>
+                            <td>Received</td>
+                            <td data-th="Date & Time">DD-MM-YYYY at hh:mm:ss</td>
+                            <td data-th="User">tarun.arora</td>
+                          </tr>
+                          <tr>
+                            <td>Inbound complete</td>
+                            <td data-th="Date & Time">DD-MM-YYYY at hh:mm:ss</td>
+                            <td data-th="User">tarun.arora</td>
+                          </tr>
+                          <tr>
+                            <td>In progress</td>
+                            <td data-th="Date & Time">DD-MM-YYYY at hh:mm:ss</td>
+                            <td data-th="User">tarun.arora</td>
+                          </tr>
+                          <tr>
+                            <td>Created</td>
+                            <td data-th="Date & Time">DD-MM-YYYY at hh:mm:ss</td>
+                            <td data-th="User">tarun.arora</td>
+                          </tr>
+                          <tr>
+                            <td>Received</td>
+                            <td data-th="Date & Time">DD-MM-YYYY at hh:mm:ss</td>
+                            <td data-th="User">tarun.arora</td>
+                          </tr>
+                          <tr>
+                            <td>Inbound complete</td>
+                            <td data-th="Date & Time">DD-MM-YYYY at hh:mm:ss</td>
+                            <td data-th="User">tarun.arora</td>
+                          </tr>
+                        </tbody>
+                      </div>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading padding_bottom_0 clearfix">
+                  <div class="pull-left form-inline">
+                    <h3 class="panel-title pull-left padding_top_5 margin_right_5 padding_bottom_15">{{'LABEL_TEXT.PRODS' | translate}}</h3>
+                    <form ng-submit="vm.batchProductList(1,true)" ui-keypress="{13:'vm.batchProductList(1,true)'}" class="pull-left">
+                      <input type="text" class="form-control width_170" ng-model="vm.prodSearch" placeholder="{{'INPUT_TEXT.SEARCH_NAM_NUM' | translate}}" focus-if />
+                    </form>
+                    <h3 class="panel-title pull-left padding_top_5 margin_right_5 padding_bottom_15" ng-if="!vm.products.length"><span class="text-info inline">&nbsp;&nbsp;{{'NO_RECORD' | translate}}</span></h3>
+                  </div>
+                  <div class="visible-xs margin_top_35"></div>
+                  <nav class="pull-right" ng-if="vm.products.length">
+                    <button class="btn btn-secondary pull-left margin_right_5" type="button" ng-click="vm.csvDownload()">{{'INPUT_TEXT.DOWNLOAD_CSV' | translate}}</button>
+                    <ul class="pager pull-left">
+                      <li class="text">
+                        <span class="current">{{(vm.startCount+1) + " - "}}{{vm.lastCount}}</span>
+                        <span>{{'LABEL_TEXT.OF' | translate}}&nbsp;{{vm.totalCount}} {{vm.resultText | translate}}</span>
+                      </li>
+                      <li>
+                        <a ng-href="" ng-class="{anchorDisabled : (vm.pageNo < 2)}" ng-click="vm.batchProductList(vm.pageNo-1)" ng-model="pre">
+                          <i class="icon-previous"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a ng-href="" ng-class="{anchorDisabled : (vm.lastCount === vm.totalCount)}" ng-click="vm.batchProductList(vm.pageNo+1)">
+                          <i class="icon-next"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                <div id="collapse_table">
+                  <table class="table_custom_1">
+                    <thead>
+                      <tr>
+                        <th>{{'LABEL_TEXT.PROD_NUM' | translate}}</th>
+                        <th>{{'LABEL_TEXT.PROD_NAME' | translate}}</th>
+                        <th>{{'LABEL_TEXT.EXP' | translate}}</th>
+                        <th>{{'LABEL_TEXT.RCV' | translate}}</th>
+                        <th>{{'LABEL_TEXT.ACC' | translate}}</th>
+                        <th>{{'LABEL_TEXT.REJ' | translate}}</th>
+                        <th>{{'LABEL_TEXT.ON_HOLD' | translate}}</th>
+                        <th>{{'LABEL_TEXT.PUT_AWAY' | translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody ng-repeat="row in vm.products" ng-init="expand.$index = false" ng-if="vm.products.length">
+                      <tr id="first_row" class="accordion-toggle" data-toggle="collapse" data-parent="#collapse_table" data-target=".product_{{$index}}" ng-click="vm.componentProdList(row.prod_sk, $index, row.prod_number, row.combo); expand.$index = !expand.$index">
+                        <td>
+                          <i class="indicator rotate" ng-if="row.combo" ng-class="{true: 'icon-pdown', false: 'icon-pright'}[expand.$index && !vm.isComboInfo]"></i><a ng-href="product/{{row.prod_sk}}" target="_blank">{{row.prod_number || '-'}}</a>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.PROD_NAME' | translate}}">{{row.prod_name || '-'}}</td>
+                        <td data-th="{{'LABEL_TEXT.EXP' | translate}}">
+                          <span ng-if = "row.product_qty !== 0">{{row.product_qty || row.product_qty === 0 ? row.product_qty : '-'}}</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.RCV' | translate}}">
+                          <span>{{row.received_qty || row.received_qty === 0 ? row.received_qty : '-'}}</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.ACP' | translate}}">
+                          <span>{{row.qc_acc_qty || row.qc_acc_qty === 0 ? row.qc_acc_qty : '-'}}</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.REJ' | translate}}">
+                          <span>{{row.qc_rej_qty || row.qc_rej_qty === 0 ? row.qc_rej_qty : '-'}}</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.ON_HOLD' | translate}}">
+                          <span>{{row.hold_qty || row.hold_qty === 0 ? row.hold_qty : '-'}}</span>
+                        </td>
+                        <td data-th="{{'LABEL_TEXT.PUT_AWAY' | translate}}">
+                          <span>{{row.put_away_qty || row.put_away_qty === 0 ? row.put_away_qty : '-'}}</span>
+                        </td>
+                      </tr>
+                      <tr class="hiddenRow" ng-if="vm.childProduct[$index]">
+                        <td colspan="8" class="no-padding bg_white_smoke">
+                          <div class="accordion-body collapse table_accordion product_{{$index}} in">
+                            <h4 class="txt-semibold ">{{'LABEL_TEXT.CMP_PRODUCT' | translate}}</h4>
+                            <table class="table_custom_1">
+                              <thead>
+                                <tr>
+                                  <th>{{'LABEL_TEXT.PROD_NUM' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.PROD_NAME' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.EXP' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.RCV' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.ACC' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.REJ' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.ON_HOLD' | translate}}</th>
+                                  <th>{{'LABEL_TEXT.PUT_AWAY' | translate}}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="childPro in vm.childProduct[$index]">
+                                  <td>{{childPro.prod_number || '-' }}</td>
+                                  <td data-th="{{'LABEL_TEXT.PROD_NAME' | translate}}">{{childPro.prod_name || '-' }}</td>
+                                  <td data-th="{{'LABEL_TEXT.EXP' | translate}}">
+                                  <span>{{childPro.product_qty || childPro.product_qty === 0 ? childPro.product_qty : '-'}}</span>
+                                  </td>
+                                  <td data-th="{{'LABEL_TEXT.RCV' | translate}}">
+                                    <span>{{childPro.received_qty || childPro.received_qty === 0 ? childPro.received_qty : '-'}}</span>
+                                  </td>
+                                  <td data-th="{{'LABEL_TEXT.ACP' | translate}}">
+                                    <span>{{childPro.qc_acc_qty || childPro.qc_acc_qty === 0 ? childPro.qc_acc_qty : '-'}}</span>
+                                  </td>
+                                  <td data-th="{{'LABEL_TEXT.REJ' | translate}}">
+                                    <span>{{childPro.qc_rej_qty || childPro.qc_rej_qty === 0 ? childPro.qc_rej_qty : '-'}}</span>
+                                  </td>
+                                  <td data-th="{{'LABEL_TEXT.ON_HOLD' | translate}}">
+                                    <span>{{childPro.hold_qty || childPro.hold_qty === 0 ? childPro.hold_qty : '-'}}</span>
+                                  </td>
+                                  <td data-th="{{'LABEL_TEXT.PUT_AWAY' | translate}}">
+                                    <span>{{childPro.put_away_qty || childPro.put_away_qty === 0 ? childPro.put_away_qty : '-'}}</span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="content-area-footer">
+        <div class="pull-right">
+          <div class="btn-group">
+            <button type="submit" ng-if="vm.batchDetail.status === 'RCV'" class="btn btn-lg btn-primary" ng-click="vm.completeBatch();">{{'INPUT_TEXT.FINISH_BATCH' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</section>

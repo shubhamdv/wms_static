@@ -1,0 +1,99 @@
+<section>
+  <nav class="header">
+    <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+  </nav>
+  <div class="content-wrapper menu_visible">
+    <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+    <print-batchhis/>
+      <div class="content-area" id="print-div">
+        <ol class="breadcrumb">
+          <li><a ng-href="/procurement/asn/">{{'BRD_CM.2.1' | translate}}</a>
+        </li>
+        <li><a ng-href="/procurement/asn/{{asnId}}">{{'LABEL_TEXT.TEXT1_DEATIL' | translate}}</a>
+      </li>
+      <li class="active">{{'LABEL_TEXT.TEXT1' | translate}}&nbsp;{{'LABEL_TEXT.BH' | translate}}</li>
+    </ol>
+    <div class="container-fluid">
+      <div class="row">
+        <h4 class="page_title">{{'LABEL_TEXT.TEXT1' | translate}}&nbsp;{{'LABEL_TEXT.BH' | translate}}</h4>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <span class="page_heading">{{'LABEL_TEXT.TEXT1' | translate}} - {{sourceNum ? sourceNum : 'Source'}}</span>
+          <span class="label label-danger" ng-if="data.expired">
+            {{'STATUS.EXR' | translate}}
+          </span>
+          <br>
+          <br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="alert alert-danger text hidden-print" ng-show="error">
+          <button ng-click="error = !error" class="close">&times;</button>
+          <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{errorMsg | translate}}
+        </div>
+      </div>
+      <div class="row hidden-print">
+        <div class="col-lg-9 col-md-8 col-sm-7 col-xs-6">
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-5 col-xs-6" ng-if="batches.length>0">
+          <nav class="text-right">
+            <ul class="pager">
+              <li class="text">
+                <strong>{{(startCount+1) + " - "}}{{lastCount}}</strong> of {{totalCount}} {{resultText | translate}}
+              </li>
+              <li>
+                <a ng-class="{anchorDisabled : (pageNo < 2)}" ng-click="asnBatchDetail(pageNo-1)" ng-model="pre">
+                  <i class="icon-previous"></i>
+                </a>
+              </li>
+              <li>
+                <a ng-class="{anchorDisabled : (lastCount === totalCount)}" ng-click="asnBatchDetail(pageNo+1)" href="#">
+                  <i class="icon-next"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <table class="table_custom_1">
+            <thead>
+              <tr>
+                <th>{{'LABEL_TEXT.TEXT2' | translate}}</th>
+                <th>{{'LABEL_TEXT.STATUS' | translate}}</th>
+                <th>{{'LABEL_TEXT.ITEM_EXP' | translate}}</th>
+                <th>{{'LABEL_TEXT.ITEM_RCV' | translate}}</th>
+                <th>{{'LABEL_TEXT.ARR_ON' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="batch in batches">
+                <td><a target="_blank" href="/procurement/batch/{{batch.number}}">{{batch.number}}</a>&nbsp;<span ng-if="batch.source ==='UE'" class="label label-danger">{{'SOURCE.UE' | translate}}</span></td>
+                <td data-th="{{'LABEL_TEXT.STATUS' | translate}}"> {{'STATUS.'+ batch.status | translate}}</td>
+                <td data-th="{{'LABEL_TEXT.ITEM_EXP' | translate}}">{{batch.product_qty ? batch.product_qty : 0}}</td>
+                <td data-th="{{'LABEL_TEXT.ITEM_RCV' | translate}}">{{batch.received_qty ? batch.received_qty : 0}}</td>
+                <td data-th="{{'LABEL_TEXT.ARR_ON' | translate}}"><span ng-if="batch.batch_received_at ">{{batch.batch_received_at  | date : 'yyyy-MM-dd'}} &nbsp;{{batch.batch_received_at | date : 'hh:mm:ss'}}</span><span ng-if="!batch.batch_received_at "> - </span></td>
+              </tr>
+              <tr ng-if="(batches.length===0) || isNoRecord">
+                <td colspan="5">&nbsp;&nbsp;{{norecord | translate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+</div>
+<div class="content-area-footer hidden-print">
+  <button class="btn  btn-secondary pull-left btn_icon" ng-disabled="!batches.length" ng-click="printbatches('print-div')">
+  <i class="icon-printer"></i>
+  </button>
+</div>
+</section>

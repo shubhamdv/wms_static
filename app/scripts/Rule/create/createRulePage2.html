@@ -1,0 +1,85 @@
+<div class="row">
+  <div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+    <div class="panel panel-default ">
+      <div class="panel-heading" role="tab" id="headingFc">
+        <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#fc" aria-expanded="true" aria-controls="fc">
+              {{'LABEL_TEXT.INPUT_CONTROLS' | translate}}
+          </h4>
+      </div>
+      <div class="panel-body">
+        <div class="col-sm-12 col-md-12 col-lg-10 col-lg-offset-1">
+          <div class="form-group productCategoryAuto">
+            <label class="text-left" class="text-left">{{'LABEL_TEXT.RULE.FILTER_BY.PRODUCT_CATEGORY' | translate}}</label>
+            <tags-input on-tag-added="vm.setValue($tag, 'productCategory')" on-tag-removed="vm.removeTag($tag, 'productCategory')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.createData.productCategory" property-key="sk" display-property="name"
+                placeholder="{{'INPUT_TEXT.ENTER_CAT'|translate}}">
+              <auto-complete source="vm.getPCMSAutocompleteData($query, 'productCategory')"></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="vm.isProductCategory">{{'NO_RECORD' | translate}}</span>
+          </div>
+          <div class="form-group productTypeAuto">
+            <label class="text-left" for="client">{{'LABEL_TEXT.RULE.FILTER_BY.PRODUCT_TYPE' | translate}}</label>
+            <tags-input on-tag-added="vm.setValue($tag, 'productType')" on-tag-removed="vm.removeTag($tag, 'productType')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.createData.productType" property-key="sk" display-property="name"
+                placeholder="{{'INPUT_TEXT.ENTER_TYPE'|translate}}">
+              <auto-complete source="vm.getPCMSAutocompleteData($query, 'productType')"></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="vm.isProductType">{{'NO_RECORD' | translate}}</span>
+          </div>
+          <div class="form-group productNameAuto">
+            <label class="text-left" for="supplier">{{'LABEL_TEXT.RULE.FILTER_BY.PRODUCT_NAME' | translate}}</label>
+            <tags-input on-tag-added="vm.setValue($tag, 'productName')" on-tag-removed="vm.removeTag($tag, 'productName')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.createData.productName" display-property="title" placeholder="{{'INPUT_TEXT.ENTER_NAME'|translate}}">
+              <auto-complete source="vm.getPCMSAutocompleteData($query, 'productName')"></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="vm.isProductName">{{'NO_RECORD' | translate}}</span>
+          </div>
+          <div class="form-group masterChannelAuto">
+            <label class="text-left" for="date">{{'LABEL_TEXT.RULE.FILTER_BY.MASTER_CHANNEL' | translate}}</label>
+            <tags-input on-tag-added="vm.setValue($tag, 'masterChannel')" on-tag-removed="vm.removeTag($tag, 'masterChannel')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.createData.masterChannel" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_MASTER_CHANNEL'|translate}}">
+              <auto-complete source="vm.getAutocompleteData($query, 'masterChannel')" focus-if></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="vm.isMasterChannel">{{'NO_RECORD' | translate}}</span>
+          </div>
+          <div class="form-group clientPartyAuto">
+            <label class="text-left">{{'LABEL_TEXT.RULE.FILTER_BY.CLIENT_PARTY' | translate}}</label>
+            <tags-input on-tag-added="vm.setValue($tag, 'clientParty')" on-tag-removed="vm.removeTag($tag, 'clientParty')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.createData.clientParty" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_CLIENT_PARTY'|translate}}">
+              <auto-complete source="vm.getAutocompleteData($query, 'clientParty')" focus-if></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="vm.isClientParty">{{'NO_RECORD' | translate}}</span>
+          </div>
+          <div class="form-group clientStoreAuto">
+            <label class="text-left">{{'LABEL_TEXT.RULE.FILTER_BY.CLIENT_STORE' | translate}}</label>
+            <tags-input on-tag-added="vm.setValue($tag, 'clientStore')" on-tag-removed="vm.removeTag($tag, 'clientStore')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.createData.clientStore" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_CLIENT_STORE'|translate}}">
+              <auto-complete source="vm.getAutocompleteData($query, 'clientStore')" focus-if></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="vm.isClientStore">{{'NO_RECORD' | translate}}</span>
+          </div>
+          <div class="form-group supplierPartyAuto">
+            <label class="text-left">{{'LABEL_TEXT.RULE.FILTER_BY.SUPPLIER_PARTY' | translate}}</label>
+            <tags-input on-tag-added="vm.setValue($tag, 'supplierParty')" on-tag-removed="vm.removeTag($tag, 'supplierParty')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.createData.supplierParty" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_SUPPLIER_PARTY'|translate}}">
+              <auto-complete source="vm.getAutocompleteData($query, 'supplierParty')" focus-if></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="vm.isSupplierParty">{{'NO_RECORD' | translate}}</span>
+          </div>
+          <div class="form-group supplierStoreAuto">
+            <label class="text-left" for="date">{{'LABEL_TEXT.RULE.FILTER_BY.SUPPLIER_STORE' | translate}}</label>
+            <tags-input on-tag-added="vm.setValue($tag, 'supplierStore')" on-tag-removed="vm.removeTag($tag, 'supplierStore')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.createData.supplierStore" display-property="name" placeholder="{{'INPUT_TEXT.ENTER_SUPPLIER_STORE'|translate}}">
+              <auto-complete source="vm.getAutocompleteData($query, 'supplierStore')" focus-if></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="vm.isSupplierStore">{{'NO_RECORD' | translate}}</span>
+          </div>
+          <div class="form-group fulfillmentCenterAuto">
+            <label class="text-left" for="date">{{'LABEL_TEXT.RULE.FILTER_BY.FULFILMENT_CENTER' | translate}}</label>
+            <tags-input on-tag-added="vm.setValue($tag, 'fulfillmentCenter')" on-tag-removed="vm.removeTag($tag, 'fulfillmentCenter')" max-tags="1" ng-required="true" add-from-autocomplete-only="true" ng-model="vm.createData.fulfillmentCenter" display-property="name"
+                placeholder="{{'INPUT_TEXT.ENTER_FULFILMENT_CENTER'|translate}}">
+              <auto-complete source="vm.getAutocompleteData($query, 'fulfillmentCenter')" focus-if></auto-complete>
+            </tags-input>
+            <span class="help-block text-left text-error" ng-show="vm.isFulfillmentCenter">{{'NO_RECORD' | translate}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group text-right">
+      <button class="btn btn-secondary" ng-click="vm.currentStep=1;vm.step_process(2, 1, 'desc')"> {{'BTN_PREV'|translate}}</button>
+      <button class="btn btn-primary" ng-click="vm.currentStep=3;vm.step_process(2, 3);"> {{'BTN_NEXT'|translate}}</button>
+    </div>
+  </div>
+</div>

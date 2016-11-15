@@ -1,0 +1,281 @@
+<section>
+    <nav class="header">
+        <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+    </nav>
+    <div class="content-wrapper menu_visible">
+        <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+        <div class="content-area" ng-init="vm.getProductDetail();">
+            <div class="title_bar">
+                <ol class="breadcrumb">
+                    <li>
+                        <a ng-href="/product">{{'BRD_CM.6.1' | translate}}</a>
+                    </li>
+                    <li ng-class="{'active': !vm.main_sk}" ng-if="!vm.main_sk">
+                        {{'BRD_CM.6.2' | translate}}
+                    </li>
+                    <li ng-if="vm.main_sk">
+                        <a ng-href="/product/{{vm.main_sk}}">{{'BRD_CM.6.2' | translate}}</a>
+                    </li>
+                    <li ng-class="{'active': vm.main_sk}" ng-if="vm.main_sk">{{'BRD_CM.6.7' | translate}}</li>
+                </ol>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="alert alert-success" role="alert" ng-show="vm.success">
+                        <button type="button" class="close" ng-click="vm.success = !vm.success">&times;</button>
+                        <b>{{'ALERT_MSG.SUCC_HEAD' | translate}}</b>&nbsp;{{'SUCC_MSG.MSG10' | translate}}
+                    </div>
+                    <div class="alert alert-danger text" ng-show="vm.error">
+                        <button ng-click="vm.error = !vm.error" class="close" type="button">&times;</button>
+                        <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errorMsg | translate}}
+                    </div>
+                    <div class="alert alert-danger text" ng-show="vm.isNoRecord">
+                        <button ng-click="vm.isNoRecord = !vm.isNoRecord" class="close" type="button">&times;</button>
+                        <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;
+                        <span ng-if="!vm.pcmsAuthMsg.detail">{{'ERR_MSG.MSG14' | translate}}</span>
+                        <span ng-if="vm.pcmsAuthMsg.detail">{{'ERR_MSG.MSG15' | translate}}</span>
+                    </div>
+                </div>
+                <section ng-if="vm.prodDetail">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{'LABEL_TEXT.PROD_INFO' | translate}}</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <section>
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-body padding0">
+                                                                <carousel>
+                                                                    <slide ng-repeat="slide in vm.pcmsDetail.product_images" ng-if="vm.pcmsDetail && vm.pcmsDetail.product_images.length > 0" active="slide.active">
+                                                                        <img ng-src="{{slide.image_path}}">
+                                                                    </slide>
+                                                                    <slide ng-if="!vm.pcmsDetail || (vm.pcmsDetail&& pcmsDetail.product_images.length < 1)" active="slide.active">
+                                                                        <img src="assets/images/qc/qc_img_not_avlbl.png" alt="qc_img_not_avlbl.jpg">
+                                                                    </slide>
+                                                                </carousel>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <h3 class="txt-semibold">{{vm.prodDetail.name ? vm.prodDetail.name : '-'}}</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <dl>
+                                                            <dt>{{'LABEL_TEXT.DESCRIPTION' | translate}}</dt>
+                                                            <dd>{{vm.prodDetail.description ? vm.prodDetail.description : '-'}} </dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>                                           
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <table class="table_custom_1 table_custom_2">
+                                        <tbody>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.PROD_NUM' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.PROD_NUM' | translate}}">{{vm.prodDetail.number ? vm.prodDetail.number : '-'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.PCM_ID' | translate}}</td>
+                                                <td data-th="{'LABEL_TEXT.PCM_ID' | translate}}">{{vm.prodDetail.pcms_id ? vm.prodDetail.pcms_id : '-'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.DCM_ID' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.DCM_ID' | translate}}">{{vm.pcmsDetail.identification_code ? vm.pcmsDetail.identification_code : '-'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.CLIENT' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.CLIENT' | translate}}">{{vm.prodDetail.client_name ? vm.prodDetail.client_name : ' - '}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.SUPPLIER_STORE' | translate}}">{{vm.prodDetail.supplier_store_name ? vm.prodDetail.supplier_store_name : '-'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.SUPPLIER_SKU' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.SUPPLIER_SKU' | translate}}">{{vm.prodDetail.supplier_sku ? vm.prodDetail.supplier_sku : '-'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.PROD_TYPE' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.PROD_TYPE' | translate}}">{{vm.pcmsDetail.product_class.name ? vm.pcmsDetail.product_class.name : '-'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.URL' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.URL' | translate}}"><a target="_blank" ng-href="{{vm.prodDetail.url}}"><span ng-if="vm.prodDetail.url">{{'LABEL_TEXT.CLK_TO_VIEW' | translate}}</span><span ng-if="!vm.prodDetail.url">&minus;</span></a></td>
+                                            </tr>
+                                            <tr ng-if="vm.pcmsDetail.status">
+                                                <td>{{'LABEL_TEXT.STATUS' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.STATUS' | translate}}">{{vm.pcmsDetail.status ? vm.pcmsDetail.status : '-'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.AVAILABILITY' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.AVAILABILITY' | translate}}" ng-if="vm.prodDetail.active">{{'LABEL_TEXT.ACTIVE' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.AVAILABILITY' | translate}}" ng-if="!vm.prodDetail.active">{{'LABEL_TEXT.INACTIVE' | translate}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tagged categories</td>
+                                                <td data-th="Tagged categories">
+                                                    <span class="block" ng-if="vm.pcmsDetail.categories" ng-repeat="tag in vm.pcmsDetail.categories">
+                                                        {{tag.full_name}}
+                                                    </span>
+                                                    <span ng-if="!vm.pcmsDetail.categories">&minus;</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.EXP_DATE_REQ' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.EXP_DATE_REQ' | translate}}" ng-if="vm.prodDetail.expiry_chk">{{'YES' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.EXP_DATE_REQ' | translate}}" ng-if="!vm.prodDetail.expiry_chk">{{'NO' | translate}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.IMEI_REQ' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.IMEI_REQ' | translate}}" ng-if="vm.prodDetail.imei_required">{{'YES' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.IMEI_REQ' | translate}}" ng-if="!vm.prodDetail.imei_required">{{'NO' | translate}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.EAN_REQ' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.EAN_REQ' | translate}}" ng-if="vm.prodDetail.ean_required">{{'YES' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.EAN_REQ' | translate}}" ng-if="!vm.prodDetail.ean_required">{{'NO' | translate}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{'LABEL_TEXT.SN_REQ' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.SN_REQ' | translate}}" ng-if="vm.prodDetail.sn_required">{{'YES' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.SN_REQ' | translate}}" ng-if="!vm.prodDetail.sn_required">{{'NO' | translate}}</td>
+                                            </tr>
+
+                                            <tr ng-if="vm.prodDetail.rejection_duration">
+                                                <td>{{'LABEL_TEXT.REJECTION_DURATION' | translate}}</td>
+                                                <td data-th="{{'LABEL_TEXT.REJECTION_DURATION' | translate}}">{{vm.prodDetail.rejection_duration || "-"}}</td>
+                                            </tr>
+                                            
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                            <form name="attrUpdate" my-directive>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clearfix">
+                                        <h3 class="panel-title pull-left padding_top_5">{{'LABEL_TEXT.MEASR_ATTR' | translate}}</h3>
+                                        <button class="btn btn-secondary pull-right margin_bottom_0" type="submit" ng-if="!vm.isEdit" ng-click="vm.editButton()">{{'INPUT_TEXT.EDIT' | translate}}</button>
+                                        <button class="btn btn-primary pull-right margin_bottom_0" ng-if="vm.isEdit" ng-disabled="vm.oldFieldValue === vm.newFieldValue" type="button" ng-click="vm.updateProduct()">{{'INPUT_TEXT.SAVE' | translate}}</button>
+                                        <button class="btn btn-border pull-right margin_bottom_0 margin_right_5" ng-if="vm.isEdit" ng-click="vm.isEdit = false" type="button">{{'INPUT_TEXT.CANCEL' | translate}}</button>&nbsp;
+
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table_custom_1 table_custom_2">
+                                            
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{'LABEL_TEXT.MRP' | translate}}</td>
+                                                    <td data-th="{{'LABEL_TEXT.MRP' | translate}}" ng-if="!vm.isEdit">
+                                                        <span ng-if="!vm.prodDetail.mrp_chk">{{'NO' | translate}}</span>
+                                                        <span ng-if="vm.prodDetail.mrp_chk">{{'YES' | translate}}</span>
+                                                    </td>
+                                                    <td data-th="{{'LABEL_TEXT.MRP' | translate}}" ng-if="vm.isEdit">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" ng-model="vm.prodDetail.mrp_chk" name="mrp_chk" id="inlineRadio2" ng-value="true" ng-change="vm.fieldValueChange()">{{'YES' | translate}}
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" ng-model="vm.prodDetail.mrp_chk" name="mrp_chk" id="inlineRadio1" ng-value="false" ng-change="vm.fieldValueChange()">{{'NO' | translate}}
+                                                    </label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{'LABEL_TEXT.LT' | translate}}{{'LABEL_TEXT.CM' | translate}}</td>
+                                                    <td data-th="{{'LABEL_TEXT.LT' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="!vm.isEdit">
+                                                        <span ng-if="!vm.prodDetail.length">-</span>
+                                                        <span ng-if="vm.prodDetail.length">{{vm.prodDetail.length | number:2}}</span>
+                                                    </td>
+                                                    <td data-th="{{'LABEL_TEXT.LT' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="vm.isEdit">
+                                                        <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_VALUE' | translate }}" name="length" ng-model="vm.prodDetail.length" ng-change="vm.fieldValueChange()" valid-float/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{'LABEL_TEXT.WD' | translate}}{{'LABEL_TEXT.CM' | translate}}</td>
+                                                    <td data-th="{{'LABEL_TEXT.WD' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="!vm.isEdit">
+                                                        <span ng-if="!vm.prodDetail.width">-</span>
+                                                        <span ng-if="vm.prodDetail.width">{{vm.prodDetail.width | number:2}}</span>
+                                                    </td>
+                                                    <td data-th="{{'LABEL_TEXT.WD' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="vm.isEdit">
+                                                        <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_VALUE' | translate }}" name="width" ng-model="vm.prodDetail.width" ng-change="vm.fieldValueChange()" valid-float/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{'LABEL_TEXT.HT' | translate}}{{'LABEL_TEXT.CM' | translate}}</td>
+                                                    <td data-th="{{'LABEL_TEXT.HT' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="!vm.isEdit">
+                                                        <span ng-if="!vm.prodDetail.height">-</span>
+                                                        <span ng-if="vm.prodDetail.height">{{vm.prodDetail.height | number:2}}</span>
+                                                    </td>
+                                                    <td data-th="{{'LABEL_TEXT.HT' | translate}}{{'LABEL_TEXT.CM' | translate}}" ng-if="vm.isEdit">
+                                                        <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_VALUE' | translate }}" name="height" ng-model="vm.prodDetail.height" ng-change="vm.fieldValueChange()" valid-float/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{'LABEL_TEXT.WT' | translate}}{{'LABEL_TEXT.KG' | translate}}</td>
+                                                    <td data-th="{{'LABEL_TEXT.WT' | translate}}{{'LABEL_TEXT.KG' | translate}}" ng-if="!vm.isEdit">
+                                                        <span ng-if="!vm.prodDetail.weight">-</span>
+                                                        <span ng-if="vm.prodDetail.weight">{{vm.prodDetail.weight | number:2}}</span>
+                                                    </td>
+                                                    <td data-th="{{'LABEL_TEXT.WT' | translate}}{{'LABEL_TEXT.KG' | translate}}" ng-if="vm.isEdit">
+                                                        <input type="text" class="form-control" placeholder="{{'INPUT_TEXT.ENTER_WIDTH' | translate}}" name="weight" ng-model="vm.prodDetail.weight" ng-change="vm.fieldValueChange()" valid-float/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                            <div class="panel panel-default" ng-if="(vm.prodDetail.combo && vm.prodDetail.child_products.length) || (!vm.prodDetail.combo && vm.prodDetail.master_products.length)">
+                                <div class="panel-heading clearfix">
+                                    <h3 class="panel-title" ng-if="(vm.prodDetail.combo && vm.prodDetail.child_products.length)">{{'LABEL_TEXT.CMP_PRODUCT' | translate}}</h3>
+                                    <h3 class="panel-title" ng-if="(!vm.prodDetail.combo && vm.prodDetail.master_products.length)">{{'LABEL_TEXT.MASTER_PRODUCT' | translate}}</h3>
+                                </div>
+                                <table class="table_custom_1 ">
+                                    <thead>
+                                        <tr>
+                                            <th class="td_width_20">{{'LABEL_TEXT.PROD_NUM' | translate}}</th>
+                                            <th>{{'LABEL_TEXT.PROD_NAME' | translate}}</th>
+                                            <th ng-if="vm.prodDetail.combo">{{'LABEL_TEXT.EACH_SET' | translate}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="vm.prodDetail.combo" ng-repeat = "combo in vm.prodDetail.child_products">
+                                            <td><a ng-href="/product/{{vm.prodDetail.sk}}/{{combo.sk}}">{{combo.number ? combo.number : '-'}}</a></td>
+                                            <td data-th="{{'LABEL_TEXT.PROD_NAME' | translate}}">{{combo.name ? combo.name : '-'}}</td>
+                                            <td data-th="{{'LABEL_TEXT.EACH_SET' | translate}}" >{{combo.quantity ? combo.quantity : '-'}}</td>
+                                        </tr>
+                                        <tr ng-if="!vm.prodDetail.combo" ng-repeat = "masterProd in vm.prodDetail.master_products">
+                                            <td><a ng-href="/product/{{masterProd.sk}}">{{masterProd.number ? masterProd.number : '-'}}</a></td>
+                                            <td data-th="{{'LABEL_TEXT.PROD_NAME' | translate}}">{{masterProd.name ? masterProd.name : '-'}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+</section>

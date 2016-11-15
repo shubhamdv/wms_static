@@ -1,0 +1,49 @@
+<section>
+    <nav class="header">
+        <div data-ng-controller="NavbarCtrl" data-ng-include="'components/navBar/navBar.html'"></div>
+    </nav>
+    <div class="content-wrapper menu_visible">
+        <div data-ng-include="'components/leftMenu/leftMenu.html'"></div>
+        <div class="content-area">
+            <br>
+            <br>
+            <div class="container-fluid">
+                <br>
+                <br>
+                <br>
+                <section>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-7 col-sm-10 col-sm-offset-1  col-lg-offset-3 col-md-offset-3 ">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{'PAGE_CONTENT.STATION.CON1' | translate}}</h3>
+                                </div>
+                                <div class="panel-body scan_input_container">
+                                    <div class="row padding_top_5">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="alert alert-danger" ng-show="vm.showErrorMessage">
+                                                <button ng-click="vm.showErrorMessage = false" class="close">&times;</button>
+                                                <b>{{'ALERT_MSG.ERROR_HEAD' | translate}}</b>&nbsp;{{vm.errormessage | translate}}
+                                            </div>
+                                            <div>
+                                                <div class="form-group scan_input">
+                                                    <div class="input-group"> 
+                                                        <span class="input-group-addon"> <i class="icon-scan"></i>
+                                                    </span>
+                                                    <input type="text" class="form-control" name="stationName" ng-model="vm.stationName" placeholder="{{'INPUT_TEXT.SCAN_STATION' | translate}}" autocomplete="off" class="form-control" focus-if>
+                                                </div>
+                                                <button type="hidden" class="hidden" ng-enter="{{!vm.stationName}}" ng-click="vm.getStation()"></button>
+                                                <p>{{'PAGE_CONTENT.STATION.CON2' | translate}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            </div>
+        </div>
+    </div>
+</section>
