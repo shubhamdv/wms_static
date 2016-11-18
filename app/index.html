@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <base href="/">
     <title data-ng-bind="route.title? route.title : 'Godam | Home' | translate"></title>
+
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -20,12 +20,15 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="scripts/app.css" />
+    <link rel="stylesheet" href="assets/styles/delhivery_icons_godam.css">
+    <link rel="stylesheet" href="assets/styles/custom_bootstrap.css">
+    <link rel="stylesheet" href="assets/styles/theme_admin.css">
+    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/styles/responsive.css">
+    <link rel="stylesheet" href="assets/styles/custom.css">
     <!-- injector:css -->
-    <link rel="stylesheet" href="/app/styles/custom.css">
-    <link rel="stylesheet" href="/app/styles/custom_bootstrap.css">
-    <link rel="stylesheet" href="/app/styles/main.css">
-    <link rel="stylesheet" href="/app/styles/responsive.css">
-    <link rel="stylesheet" href="/app/styles/theme_admin.css">
+    <link rel="stylesheet" href="styles/main.css">
     <!-- endinjector -->
     <!-- endbuild -->
   </head>
@@ -108,6 +111,12 @@
         <script src="scripts/Authentication/password/reset/reset.controller.js"></script>
         <script src="scripts/Authentication/password/reset/reset.js"></script>
         <script src="scripts/Authentication/password/reset/reset.service.js"></script>
+        <script src="scripts/Inbound/PutAway/Item/item.controller.js"></script>
+        <script src="scripts/Inbound/PutAway/Item/item.js"></script>
+        <script src="scripts/Inbound/PutAway/Item/item.service.js"></script>
+        <script src="scripts/Inbound/QC/Item/item.controller.js"></script>
+        <script src="scripts/Inbound/QC/Item/item.js"></script>
+        <script src="scripts/Inbound/QC/Item/item.service.js"></script>
         <script src="scripts/Inventory/Item/changelog/changelog.controller.js"></script>
         <script src="scripts/Inventory/Item/changelog/changelog.directive.js"></script>
         <script src="scripts/Inventory/Item/changelog/changelog.js"></script>
@@ -169,8 +178,6 @@
         <script src="scripts/Rule/update/update.controller.js"></script>
         <script src="scripts/Rule/update/update.js"></script>
         <script src="scripts/Rule/update/update.service.js"></script>
-        <script src="scripts/controllers/about.js"></script>
-        <script src="scripts/controllers/main.js"></script>
         <script src="scripts/utils/factory/factory.js"></script>
         <script src="scripts/utils/fcSelection/fcSelection.controller.js"></script>
         <script src="scripts/utils/fcSelection/fcSelection.js"></script>

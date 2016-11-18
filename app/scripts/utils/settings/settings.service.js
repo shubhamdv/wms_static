@@ -158,22 +158,22 @@
           iconClass: 'icon-receiving',
           submenu: [{
               title: 'LEFT_MENU.RCV.SUB_MENU_TEXT2',
-              link: '/asn',
+              link: '#/asn',
               permission: ['po.can_list_agn'],
               submodule: 'ASN-LIST'
           }, {
               title: 'LEFT_MENU.RCV.SUB_MENU_TEXT3',
-              link: '/batches',
+              link: '#/batches',
               permission: ['po.can_list_po'],
               submodule: 'BATCH-MNG'
           }, {
               title: 'LEFT_MENU.RCV.SUB_MENU_TEXT4',
-              link: '/receiving/shipment',
+              link: '#/receiving/shipment',
               permission: ['po.can_accept_shipment'],
               submodule: 'SHP-RECEIVING'
           }, {
               title: 'LEFT_MENU.RCV.SUB_MENU_TEXT5',
-              link: '/receiving/item',
+              link: '#/receiving/item',
               permission: ['po.can_receive_po'],
               submodule: 'ITEM-RECEIVING'
           }],
@@ -185,12 +185,12 @@
           iconClass: 'icon-product',
           submenu: [{
               title: 'LEFT_MENU.INVENTORY.SUB_MENU_TEXT1',
-              link: '/product',
+              link: '#/product',
               permission: ['pcm.can_list_products'],
               submodule: 'PROD'
           }, {
               title: 'LEFT_MENU.INVENTORY.SUB_MENU_TEXT3',
-              link: '/item',
+              link: '#/item',
               permission: ['ims.can_scan_items'],
               submodule: 'PROD-ITEM'
           }],
@@ -200,7 +200,7 @@
       },{
           title: 'LEFT_MENU.QC.QC_TEXT',
           iconClass: 'icon-qualitycheck',
-          link: '/inbound/qc/item',
+          link: '#/inbound/qc/item',
           submenu: [],
           permissions: ['ims.can_qc_item'],
           module: 'QC',
@@ -208,7 +208,7 @@
       },{
           title: 'LEFT_MENU.PUT.PUT_TEXT',
           iconClass: 'icon-put',
-          link: '/inbound/put-away/item',
+          link: '#/inbound/put-away/item',
           submenu: [],
           permissions: ['ims.can_put_item'],
           module: 'PUT',
@@ -216,7 +216,7 @@
       },{
           title: 'LEFT_MENU.RULE.RULE_TEXT',
           iconClass: 'fa fa-cog',
-          link: '/rules',
+          link: '#/rules',
           submenu: [],
           permissions: ['pcm.can_add_rules'],
           module: 'RULE',
@@ -226,12 +226,12 @@
           iconClass: 'icon-readytoShip',
           submenu: [{
               title: 'LEFT_MENU.RTS.SUB_MENU_TEXT1',
-              link: '/rts/get',
+              link: '#/rts/get',
               permission: ['P9'],
               submodule: 'PKL'
           }, {
               title: 'LEFT_MENU.RTS.SUB_MENU_TEXT2',
-              link: '/rts/list',
+              link: '#/rts/list',
               permission: ['P10'],
               submodule: 'PKL'
           }],
@@ -243,12 +243,12 @@
           iconClass: 'icon-dispatch',
           submenu: [{
               title: 'LEFT_MENU.DISPATCH.SUB_MENU_TEXT2',
-              link: '/dispatch/get',
+              link: '#/dispatch/get',
               permission: ['P11'],
               submodule: 'KL'
           }, {
               title: 'LEFT_MENU.DISPATCH.SUB_MENU_TEXT2',
-              link: '/dispatch/et',
+              link: '#/dispatch/et',
               permission: ['P12'],
               submodule: 'PKL'
           }],

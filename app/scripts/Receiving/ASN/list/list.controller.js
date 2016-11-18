@@ -47,6 +47,7 @@
         //////////////////////////////////////////////
 
         function activate() {
+            console.log('ASN list controller');
             _.each(statusFullName, function(key) {
                 var status = $translate('STATUS.' + key);
                 status.then(function(value) {

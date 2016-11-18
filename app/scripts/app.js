@@ -1,32 +1,3 @@
-// 'use strict';
-
-// angular
-//   .module('wmsApp', [
-//     'ngAnimate',
-//     'ngCookies',
-//     'ngResource',
-//     'ngRoute',
-//     'ngSanitize',
-//     'ngTouch'
-//   ])
-//   .config(function ($routeProvider) {
-//     $routeProvider
-//       .when('/', {
-//         templateUrl: 'views/main.html',
-//         controller: 'MainCtrl',
-//         controllerAs: 'main'
-//       })
-//       .when('/about', {
-//         templateUrl: 'views/about.html',
-//         controller: 'AboutCtrl',
-//         controllerAs: 'about'
-//       })
-//       .otherwise({
-//         redirectTo: '/'
-//       });
-//   });
-
-
 (function(){
     'use strict';
 
@@ -52,13 +23,14 @@
 
     function config($routeProvider, $locationProvider, $httpProvider, cfpLoadingBarProvider, localStorageServiceProvider) {
         localStorageServiceProvider.setPrefix('GM');
+
         $routeProvider
             .otherwise('/');
         // $locationProvider.html5Mode({
         //     enabled: false,
         //     requireBase: false
         // });
-        $locationProvider.html5Mode(true);
+        // $locationProvider.html5Mode(true);
 
         cfpLoadingBarProvider.includeSpinner = true;
         cfpLoadingBarProvider.includeBar = true;
@@ -94,8 +66,8 @@
                 return false;
             }
 
+            console.log($location.path());
             if($location.path() === '/'){
-                console.log('222227777777777777777');
                 $location.path('/login');
             }
 
@@ -123,7 +95,7 @@
                             .error(verificationError);
                     }
                 } else {
-                    console.log("1111111111111111");
+                    console.log('22222222222222');
                     $location.path('/login');
                 }
             }
@@ -141,6 +113,7 @@
                 if (nextRoute.access.requiredLogin) {
                     preConditionCheck();
                 } else {
+                    console.log("Hererere33333333333")
                     setDataError();
                 }
             }
@@ -148,6 +121,7 @@
             function preConditionCheck (){
                 var permissions = $rootScope.permissions && $rootScope.permissions.length > 0;
                 if (nextRoute.access.requiredPrecondition && !permissions) {
+                    console.log("Hererere12222222");
                     sessionManagement.isProfileDataSet()
                     .success(setDataSuccess)
                     .error(setDataError);
@@ -187,6 +161,7 @@
                         $location.path('/login');
                     }
                 } else {
+                    console.log("Hererere11111111111");
                     setDataError();
                 }
             }

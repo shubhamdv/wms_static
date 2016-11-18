@@ -21,6 +21,7 @@
         vm.removeTag = removeTag;
         vm.getFC = getFC;
         vm.selectStation = selectStation;
+        console.log("in fc");
 
         ///////////////////////
 

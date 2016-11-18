@@ -35,7 +35,7 @@ module.exports = function (grunt) {
       },
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-        tasks: ['newer:jshint:all', 'newer:jscs:all'],
+        tasks: ['injector', 'newer:jshint:all', 'newer:jscs:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
@@ -274,7 +274,10 @@ module.exports = function (grunt) {
       dist: {
         files: {
           '<%= yeoman.dist %>/styles/main.css': [
-            '.tmp/styles/{,*/}*.css'
+            '.tmp/styles/**/*.css'
+          ],
+          '<%= yeoman.dist %>/styles/vendor.css': [
+            'bower_components/**/*.css'
           ]
         }
       }
@@ -339,7 +342,7 @@ module.exports = function (grunt) {
           usemin: 'scripts/scripts.js'
         },
         cwd: '<%= yeoman.app %>',
-        src: ['views/{,*/}*.html', 'scripts/**/*.html'],
+        src: ['views/{,*/}*.html', 'scripts/**/*.html', 'components/**/*.html'],
         dest: '.tmp/templateCache.js'
       }
     },
@@ -351,7 +354,7 @@ module.exports = function (grunt) {
           var pathToInject = filePath;
           
           if (e === 'css') {
-            return '<link rel="stylesheet" href="' + pathToInject + '">';
+            return '<link rel="stylesheet" href="' + pathToInject.replace('/app/', '') + '">';
           } else if (e === 'js') {
             return '<script src="' + pathToInject.replace('/app/', '') + '"></script>';
           } else if (e === 'html') {
@@ -404,6 +407,7 @@ module.exports = function (grunt) {
             '*.html',
             'images/{,*/}*.{webp}',
             'styles/fonts/{,*/}*.*',
+            'assets/{,*/}*',
             'fonts/{,*/}*'
           ]
         }, {
